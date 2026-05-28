@@ -1,0 +1,80 @@
+# frozen_string_literal: true
+
+require "setup"
+require "tempfile"
+require "llm/providers/deepseek"
+
+RSpec.describe "LLM::DeepSeek::RequestAdapter::Completion" do
+  describe "#adapt" do
+    subject(:payload) { LLM::DeepSeek::RequestAdapter::Completion.new(message).adapt }
+
+    let(:provider) { LLM.deepseek(key: "test") }
+
+    context "with assistant content" do
+      let(:message) do
+        LLM::Message.new("assistant", "answer", reasoning_content: "thought")
+      end
+
+      it "preserves reasoning content" do
+        expect(payload).to eq(
+          role: "assistant",
+          content: [{type: :text, text: "answer"}],
+          reasoning_content: "thought"
+        )
+      end
+    end
+
+    context "with image content" do
+      let(:message) do
+        LLM::Message.new("user", [ctx.image_url("https://example.com/cat.png")])
+      end
+
+      let(:ctx) { LLM::Context.new(provider) }
+
+      it "raises a prompt error" do
+        expect { payload }.to raise_error(LLM::PromptError, /image_url/)
+      end
+    end
+
+    context "with local file content" do
+      let(:tempfile) do
+        Tempfile.create(["example", ".pdf"]).tap {
+          _1.write("%PDF-1.4\n")
+          _1.rewind
+        }
+      end
+
+      let(:message) do
+        LLM::Message.new("user", [ctx.local_file(tempfile.path)])
+      end
+
+      let(:ctx) { LLM::Context.new(provider) }
+
+      it "raises a prompt error" do
+        expect { payload }.to raise_error(LLM::PromptError, /local_file/)
+      end
+    end
+
+    context "with assistant tool calls" do
+      let(:message) do
+        LLM::Message.new("assistant", nil, {
+          reasoning_content: "thought",
+          original_tool_calls: [{"id" => "call_1"}],
+          tool_calls: [{id: "call_1", name: "system", arguments: {command: "date"}}]
+        })
+      end
+
+      it "preserves nil content" do
+        expect(payload[:content]).to be_nil
+      end
+
+      it "normalizes tool calls" do
+        expect(payload[:tool_calls]).to eq([{"id" => "call_1"}])
+      end
+
+      it "preserves reasoning content" do
+        expect(payload[:reasoning_content]).to eq("thought")
+      end
+    end
+  end
+end

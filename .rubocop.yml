@@ -1,0 +1,71 @@
+##
+# Plugins
+require:
+  - standard
+
+##
+# Defaults: standard-rb
+inherit_gem:
+  standard: config/base.yml
+
+##
+# All cops
+AllCops:
+  TargetRubyVersion: 3.3
+  Include:
+    - lib/*.rb
+    - lib/**/*.rb
+    - spec/*_spec.rb
+    - spec/**/*_spec.rb
+
+##
+# Enabled
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+##
+# Disabled
+Layout/EmptyLinesAfterModuleInclusion:
+  Enabled: false
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+Layout/ArgumentAlignment:
+  Enabled: false
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+Layout/EmptyLineBetweenDefs:
+  Enabled: false
+Style/TrivialAccessors:
+  Enabled: false
+Style/IdenticalConditionalBranches:
+  Enabled: false
+Layout/ExtraSpacing:
+  Enabled: false
+Style/EmptyElse:
+  Enabled: false
+Style/PercentLiteralDelimiters:
+  Enabled: false
+Style/MultilineIfModifier:
+  Enabled: false
+Layout/ArrayAlignment:
+  Enabled: false
+Style/AndOr:
+  Enabled: false
+Lint/AssignmentInCondition:
+  Enabled: false
+Style/MissingRespondToMissing:
+  Exclude:
+    - lib/llm/object.rb
+Style/NestedTernaryOperator:
+  Exclude:
+    - lib/llm/provider.rb
+Style/TernaryParentheses:
+  Enabled: false
+Style/MethodCallWithoutArgsParentheses:
+  Enabled: false
+Style/ParenthesesAroundCondition:
+  Enabled: false
+Lint/ConstantDefinitionInBlock:
+  Enabled: false
+Layout/ParameterAlignment:
+  Enabled: false

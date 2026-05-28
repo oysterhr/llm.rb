@@ -1,0 +1,90 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:11434/api/chat
+    body:
+      encoding: UTF-8
+      string: '{"messages":[{"role":"user","content":"You are a bot that can run UNIX
+        system commands"},{"role":"user","content":"Hey, run the ''date'' command"}],"model":"qwen3:latest","tools":[{"type":"function","name":"system","function":{"name":"system","description":"Runs
+        system commands","parameters":{"type":"object","properties":{"command":{"type":"string"}},"required":["command"]}}}],"stream":true}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/x-ndjson
+      Date:
+      - Thu, 05 Jun 2025 00:31:37 GMT
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {"model":"qwen3:latest","created_at":"2025-06-05T00:31:37.311776516Z","message":{"role":"assistant","content":"","tool_calls":[{"function":{"name":"system","arguments":{"command":"date"}}}]},"done":false}
+        {"model":"qwen3:latest","created_at":"2025-06-05T00:31:37.353764488Z","message":{"role":"assistant","content":""},"done_reason":"stop","done":true,"total_duration":2327679358,"load_duration":9552277,"prompt_eval_count":152,"prompt_eval_duration":31938280,"eval_count":109,"eval_duration":2283198826}
+  recorded_at: Thu, 05 Jun 2025 00:31:36 GMT
+- request:
+    method: post
+    uri: http://localhost:11434/api/chat
+    body:
+      encoding: UTF-8
+      string: '{"messages":[{"role":"user","content":"You are a bot that can run UNIX
+        system commands"},{"role":"user","content":"Hey, run the ''date'' command"},{"role":"assistant","content":""},{"role":"tool","tool_call_id":null,"content":"{\"success\":true}"}],"model":"qwen3:latest","tools":[{"type":"function","name":"system","function":{"name":"system","description":"Runs
+        system commands","parameters":{"type":"object","properties":{"command":{"type":"string"}},"required":["command"]}}}],"stream":true}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/x-ndjson
+      Date:
+      - Thu, 05 Jun 2025 00:31:41 GMT
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"model":"qwen3:latest","created_at":"2025-06-05T00:31:41.161428902Z","message":{"role":"assistant","content":"\u003cthink\u003e\nOkay,
+        the user asked me to run the ''date'' command. Let me check the tools available.
+        There''s a system function that takes a command parameter. So I need to call
+        that function with \"date\" as the command.\n\nWait, the user just said \"Hey,
+        run the ''date'' command\". The function requires the command argument. I
+        should structure the tool call correctly. Let me make sure the JSON is properly
+        formatted with the name and arguments. No other parameters are needed here.
+        Just the command \"date\".\n\nI''ll output the tool call inside the XML tags
+        as specified. Let me double-check the syntax. Yep, looks good. The response
+        from the tool was successful, so I should just confirm the date was executed.
+        No errors here. All set.\n\u003c/think\u003e\n\nThe ''date'' command has been
+        executed successfully. Let me know if you need anything else!"},"done_reason":"stop","done":true,"total_duration":3805570621,"load_duration":10074906,"prompt_eval_count":170,"prompt_eval_duration":16801186,"eval_count":180,"eval_duration":3769067745}
+
+        '
+  recorded_at: Thu, 05 Jun 2025 00:31:40 GMT
+recorded_with: VCR 6.3.1

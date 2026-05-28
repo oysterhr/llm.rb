@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.deepseek.com/v1/models
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer TOKEN
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 29 Aug 2025 16:46:23 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Ds-Trace-Id:
+      - 936e532de3a4574a88406eddaa6ae883
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=7Xww7DMkABuUR0_JCcguRAQ7sNrahT6QU.Ub6k97fDA-1756485983-1.0.1.1-1uQn.4f2jFVCDOe9OxocoOVMpBixswAY1ntlLJYz5zNtw8RHqKg1aLKA7JeBcNT6sKp.O65RszfYctwqNUF2x_LuXhvDWy1hJp1sY5INKJ4;
+        path=/; expires=Fri, 29-Aug-25 17:16:23 GMT; domain=.deepseek.com; HttpOnly;
+        Secure; SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 976d86357c13f237-GRU
+    body:
+      encoding: ASCII-8BIT
+      string: '{"object":"list","data":[{"id":"deepseek-chat","object":"model","owned_by":"deepseek"},{"id":"deepseek-reasoner","object":"model","owned_by":"deepseek"}]}'
+  recorded_at: Fri, 29 Aug 2025 16:46:13 GMT
+recorded_with: VCR 6.3.1

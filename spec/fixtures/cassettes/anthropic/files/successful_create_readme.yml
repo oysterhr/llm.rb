@@ -1,0 +1,115 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.anthropic.com/v1/files
+    body:
+      encoding: UTF-8
+      string: "--BOUNDARY__ebe88c47b9d249a869af1de88f888862\r\nContent-Disposition:
+        form-data; name=\"file\";filename=\"readme.md\"\r\nContent-Type: text/markdown\r\n\r\n##
+        About\n\nHello world\n\r\n--BOUNDARY__ebe88c47b9d249a869af1de88f888862--\r\n"
+    headers:
+      Content-Type:
+      - multipart/form-data; boundary=BOUNDARY__ebe88c47b9d249a869af1de88f888862
+      X-Api-Key:
+      - TOKEN
+      Anthropic-Version:
+      - '2023-06-01'
+      Anthropic-Beta:
+      - files-api-2025-04-14
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 28 Jan 2026 15:08:24 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Request-Id:
+      - req_011CXZzAarLeJNfQibhTHfaH
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Anthropic-Organization-Id:
+      - 89796e02-61da-4a75-b7ee-c55929f0d748
+      Server:
+      - cloudflare
+      X-Envoy-Upstream-Service-Time:
+      - '467'
+      Cf-Cache-Status:
+      - DYNAMIC
+      X-Robots-Tag:
+      - none
+      Cf-Ray:
+      - 9c5167a91edaa274-MIA
+    body:
+      encoding: ASCII-8BIT
+      string: '{"type":"file","id":"file_011CXZzAbCRfrRYbDxtg3YuH","size_bytes":22,"created_at":"2026-01-28T15:08:23.954000Z","filename":"readme.md","mime_type":"text/markdown","downloadable":false}'
+  recorded_at: Wed, 28 Jan 2026 15:07:35 GMT
+- request:
+    method: delete
+    uri: https://api.anthropic.com/v1/files/file_011CXZzAbCRfrRYbDxtg3YuH
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      X-Api-Key:
+      - TOKEN
+      Anthropic-Version:
+      - '2023-06-01'
+      Anthropic-Beta:
+      - files-api-2025-04-14
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 28 Jan 2026 15:08:25 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Request-Id:
+      - req_011CXZzAeeY1pexEuNwZoLwo
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Anthropic-Organization-Id:
+      - 89796e02-61da-4a75-b7ee-c55929f0d748
+      Server:
+      - cloudflare
+      X-Envoy-Upstream-Service-Time:
+      - '402'
+      Cf-Cache-Status:
+      - DYNAMIC
+      X-Robots-Tag:
+      - none
+      Cf-Ray:
+      - 9c5167aeaf5bdef3-MIA
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"file_011CXZzAbCRfrRYbDxtg3YuH","type":"file_deleted"}'
+  recorded_at: Wed, 28 Jan 2026 15:07:36 GMT
+recorded_with: VCR 6.3.1

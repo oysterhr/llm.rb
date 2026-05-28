@@ -1,0 +1,188 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=TOKEN
+    body:
+      encoding: UTF-8
+      string: '{"contents":[{"role":"user","parts":[{"text":"Can you run the date
+        command ? Can you run the pwd command ? Can you run the whoami command ?"}]},{"role":"user","parts":[{"text":"You
+        are a bot that can run UNIX commands"}]}],"tools":[{"functionDeclarations":[{"name":"system","description":"Run
+        a shell command","parameters":{"type":"object","properties":{"command":{"type":"string"}},"required":["command"]}}]}]}'
+    headers:
+      User-Agent:
+      - llm.rb v4.8.0
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Origin
+      - Referer
+      - X-Origin
+      Date:
+      - Wed, 18 Mar 2026 04:28:57 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      X-Xss-Protection:
+      - '0'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Server-Timing:
+      - gfet4t7; dur=1576
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "functionCall": {
+                      "name": "system",
+                      "args": {
+                        "command": "date"
+                      }
+                    },
+                    "thoughtSignature": "CoICAb4+9vslrv+F1V2ID5imgWISEGFyhHFA4JQJdIvJPJtRXuuVNr58kdwmU+MOqvQuRV3SBvY1FUQNbf1ivlzk+K94CnZd5+WCvBkfBpUb9ajKwhSp/mu3mhN6hytUZset+zmDNeHuuTGkxYELp8jryWder7x9eu3gNOP6xTISQpEPEXPZ5ZRd0+52ftlQjT8zKBORFG62q1eGcNxHYnN9jfchV6sUonfCXKGr0r0D1rniwPJTrZErcQN0AHmR14fG6FF2WOSRoDG8Hy0mR3xSZYJsDotpJZrZD9JEsxKTqfh7ReWRawCXChaAtEmu/TfKRHZoxLUvCVbHFwYlrPvRN3D2"
+                  },
+                  {
+                    "functionCall": {
+                      "name": "system",
+                      "args": {
+                        "command": "pwd"
+                      }
+                    }
+                  },
+                  {
+                    "functionCall": {
+                      "name": "system",
+                      "args": {
+                        "command": "whoami"
+                      }
+                    }
+                  }
+                ],
+                "role": "model"
+              },
+              "finishReason": "STOP",
+              "index": 0,
+              "finishMessage": "Model generated function call(s)."
+            }
+          ],
+          "usageMetadata": {
+            "promptTokenCount": 67,
+            "candidatesTokenCount": 40,
+            "totalTokenCount": 159,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 67
+              }
+            ],
+            "thoughtsTokenCount": 52
+          },
+          "modelVersion": "gemini-2.5-flash",
+          "responseId": "CCq6afOCJsXQz7IP--a-2AQ"
+        }
+  recorded_at: Wed, 18 Mar 2026 04:28:43 GMT
+- request:
+    method: post
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=TOKEN
+    body:
+      encoding: UTF-8
+      string: '{"contents":[{"role":"user","parts":[{"text":"You are a bot that can
+        run UNIX commands"}]},{"role":"user","parts":[{"text":"Can you run the date
+        command ? Can you run the pwd command ? Can you run the whoami command ?"}]},{"role":"model","parts":[{"functionCall":{"name":"system","args":{"command":"date"}}},{"functionCall":{"name":"system","args":{"command":"pwd"}}},{"functionCall":{"name":"system","args":{"command":"whoami"}}}]},{"role":"user","parts":[{"functionResponse":{"name":"system","response":{"stderr":"","stdout":"Wed
+        Mar 18 01:28:43 -03 2026\n"}}},{"functionResponse":{"name":"system","response":{"stderr":"","stdout":"/home/developer/p/git.home.network/llmrb/llm.rb\n"}}},{"functionResponse":{"name":"system","response":{"stderr":"","stdout":"developer\n"}}}]}],"tools":[{"functionDeclarations":[{"name":"system","description":"Run
+        a shell command","parameters":{"type":"object","properties":{"command":{"type":"string"}},"required":["command"]}}]}]}'
+    headers:
+      User-Agent:
+      - llm.rb v4.8.0
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Origin
+      - Referer
+      - X-Origin
+      Date:
+      - Wed, 18 Mar 2026 04:28:58 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      X-Xss-Protection:
+      - '0'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Server-Timing:
+      - gfet4t7; dur=967
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "text": "I have executed the `date`, `pwd`, and `whoami` commands for you. \nThe current date and time is Wed Mar 18 01:28:43 -03 2026.\nThe current working directory is /home/developer/p/git.home.network/llmrb/llm.rb.\nYour username is developer."
+                  }
+                ],
+                "role": "model"
+              },
+              "finishReason": "STOP",
+              "index": 0
+            }
+          ],
+          "usageMetadata": {
+            "promptTokenCount": 200,
+            "candidatesTokenCount": 84,
+            "totalTokenCount": 284,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 200
+              }
+            ]
+          },
+          "modelVersion": "gemini-2.5-flash",
+          "responseId": "CSq6aYrZJs7sz7IP56m02As"
+        }
+  recorded_at: Wed, 18 Mar 2026 04:28:44 GMT
+recorded_with: VCR 6.3.1

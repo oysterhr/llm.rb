@@ -1,0 +1,83 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=TOKEN
+    body:
+      encoding: UTF-8
+      string: '{"contents":[{"role":"user","parts":[{"text":"What fruit is your favorite?"}]},{"role":"user","parts":[{"text":"Your
+        favorite fruit is pineapple"}]}],"generationConfig":{"response_mime_type":"application/json","response_schema":{"type":"object","properties":{"fruit":{"description":"The
+        favorite fruit","enum":["apple","pineapple","orange"],"type":"string"}},"required":["fruit"]}}}'
+    headers:
+      User-Agent:
+      - llm.rb v4.8.0
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Origin
+      - Referer
+      - X-Origin
+      Date:
+      - Wed, 18 Mar 2026 04:29:04 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      X-Xss-Protection:
+      - '0'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Server-Timing:
+      - gfet4t7; dur=1733
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "text": "{\"fruit\": \"pineapple\"}"
+                  }
+                ],
+                "role": "model"
+              },
+              "finishReason": "STOP",
+              "index": 0
+            }
+          ],
+          "usageMetadata": {
+            "promptTokenCount": 13,
+            "candidatesTokenCount": 6,
+            "totalTokenCount": 65,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 13
+              }
+            ],
+            "thoughtsTokenCount": 46
+          },
+          "modelVersion": "gemini-2.5-flash",
+          "responseId": "Dyq6ab7aIM-nqtsP0eXJCQ"
+        }
+  recorded_at: Wed, 18 Mar 2026 04:28:50 GMT
+recorded_with: VCR 6.3.1

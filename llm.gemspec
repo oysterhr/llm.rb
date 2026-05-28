@@ -1,0 +1,62 @@
+# frozen_string_literal: true
+
+require_relative "lib/llm/version"
+
+Gem::Specification.new do |spec|
+  spec.name = "llm.rb"
+  spec.version = LLM::VERSION
+  spec.authors = ["Antar Azri", "0x1eef", "Christos Maris", "Rodrigo Serrano"]
+  spec.email = ["azantar@proton.me", "0x1eef@hardenedbsd.org"]
+
+  spec.summary = "Lightweight runtime for building capable AI systems in Ruby."
+
+  spec.description = <<~DESCRIPTION
+  llm.rb is a lightweight runtime for building capable AI systems in Ruby.
+  It is not just an API wrapper. llm.rb gives you one runtime for providers,
+  contexts, agents, tools, MCP servers, streaming, schemas, files, and
+  persisted state, so real systems can be built out of one coherent
+  execution model instead of a pile of adapters. It stays close to Ruby, runs
+  on the standard library by default, loads optional pieces only when needed,
+  includes built-in ActiveRecord support through acts_as_llm and
+  acts_as_agent, includes built-in Sequel support through plugin :llm,
+  and is designed for engineers who want control over long-lived,
+  tool-capable, stateful AI workflows instead of just request/response
+  helpers.
+  DESCRIPTION
+
+  spec.license = "0BSD"
+  spec.required_ruby_version = ">= 3.3.0"
+
+  spec.homepage = "https://github.com/llmrb/llm.rb"
+  spec.metadata["homepage_uri"] = "https://github.com/llmrb/llm.rb"
+  spec.metadata["source_code_uri"] = "https://github.com/llmrb/llm.rb"
+  spec.metadata["documentation_uri"] = "https://0x1eef.github.io/x/llm.rb"
+  spec.metadata["changelog_uri"] = "https://0x1eef.github.io/x/llm.rb/file.CHANGELOG.html"
+
+  spec.files = Dir[
+    "README.md", "LICENSE",
+    "lib/*.rb", "lib/**/*.rb",
+    "data/*.json", "CHANGELOG.md",
+    "llm.gemspec"
+  ]
+  spec.require_paths = ["lib"]
+
+  spec.add_development_dependency "webmock", "~> 3.24.0"
+  spec.add_development_dependency "yard", "~> 0.9.37"
+  spec.add_development_dependency "kramdown", "~> 2.4"
+  spec.add_development_dependency "webrick", "~> 1.8"
+  spec.add_development_dependency "test-cmd.rb", "~> 0.12.0"
+  spec.add_development_dependency "rake", "~> 13.0"
+  spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "standard", "~> 1.50"
+  spec.add_development_dependency "vcr", "~> 6.0"
+  spec.add_development_dependency "dotenv", "~> 2.8"
+  spec.add_development_dependency "net-http-persistent", "~> 4.0"
+  spec.add_development_dependency "opentelemetry-sdk", "~> 1.10"
+  spec.add_development_dependency "logger", "~> 1.7"
+  spec.add_development_dependency "activerecord", "~> 8.0"
+  spec.add_development_dependency "sequel", "~> 5.0"
+  spec.add_development_dependency "sqlite3", "~> 2.0"
+  spec.add_development_dependency "xchan.rb", "~> 0.20"
+  spec.add_development_dependency "pg", "~> 1.5"
+end

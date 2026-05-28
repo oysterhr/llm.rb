@@ -1,0 +1,228 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/files
+    body:
+      encoding: UTF-8
+      string: "--BOUNDARY__d6e04ea58b9afb89bf1e9cad30cb40f4\r\nContent-Disposition:
+        form-data; name=\"file\";filename=\"haiku4.txt\"\r\nContent-Type: text/plain\r\n\r\nCold
+        wind through the trees\nLeaves fall in a silent dance\nGray skies stretch
+        above\n\r\n--BOUNDARY__d6e04ea58b9afb89bf1e9cad30cb40f4\r\nContent-Disposition:
+        form-data; name=\"purpose\"\r\n\r\nassistants\r\n--BOUNDARY__d6e04ea58b9afb89bf1e9cad30cb40f4--\r\n"
+    headers:
+      User-Agent:
+      - llm.rb v4.4.0
+      Content-Type:
+      - multipart/form-data; boundary=BOUNDARY__d6e04ea58b9afb89bf1e9cad30cb40f4
+      Authorization:
+      - Bearer TOKEN
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 06 Mar 2026 04:04:51 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Server:
+      - cloudflare
+      X-Request-Id:
+      - req_9466f33da6c14406abe4e5fdc2958e19
+      Openai-Processing-Ms:
+      - '196'
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-j1pztzt5nogpcsid23u7gskj
+      Openai-Project:
+      - proj_YSiqu4bByPgi6EwPnLiY8irR
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=qFkOV56fu95Wp2VKA5ekD605YeTnyG1JL5uCWFSCX4A-1772769890.7165735-1.0.1.1-LQQBLWf9IEuKFgzVR4sLVNDgy7MnKXOdcMtEG_10ohqUdPKK5g8o5LpzFg0KdROP68FL_ugOA.uDs_fvaSbRYkq58MyY1oBoQA0FioRhDH4cndKdEFsVpJTXmWBv_wcD;
+        HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Fri, 06 Mar 2026
+        04:34:51 GMT
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Cf-Ray:
+      - 9d7e7a88ff782524-GRU
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "object": "file",
+          "id": "file-5EJicVxw84net8of7eNHW8",
+          "purpose": "assistants",
+          "filename": "haiku4.txt",
+          "bytes": 83,
+          "created_at": 1772769890,
+          "expires_at": null,
+          "status": "processed",
+          "status_details": null
+        }
+  recorded_at: Fri, 06 Mar 2026 04:04:38 GMT
+- request:
+    method: get
+    uri: https://api.openai.com/v1/files/file-5EJicVxw84net8of7eNHW8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - llm.rb v4.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer TOKEN
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 06 Mar 2026 04:04:51 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Server:
+      - cloudflare
+      X-Request-Id:
+      - req_9a94f8af6bf1451e88313511b22f86c1
+      Openai-Processing-Ms:
+      - '28'
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-j1pztzt5nogpcsid23u7gskj
+      Openai-Project:
+      - proj_YSiqu4bByPgi6EwPnLiY8irR
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=Jbz4R32XSKCQt0DSygZNghDYTuFvYuM4Jev4k_3v1X4-1772769891.114439-1.0.1.1-nLVOr7pJn5iClnaEgKqA3deBapDxLbgUKsQj.OhIYoDA07_vu2AzlMDDFxImaygiIao0_ad1XGamwjgl1wXC02n.nwKXR4m98xnMoE0F8RzsBzTetGymSgEEvSyIsCas;
+        HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Fri, 06 Mar 2026
+        04:34:51 GMT
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Cf-Ray:
+      - 9d7e7a8b7daffbd2-GRU
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "object": "file",
+          "id": "file-5EJicVxw84net8of7eNHW8",
+          "purpose": "assistants",
+          "filename": "haiku4.txt",
+          "bytes": 83,
+          "created_at": 1772769890,
+          "expires_at": null,
+          "status": "processed",
+          "status_details": null
+        }
+  recorded_at: Fri, 06 Mar 2026 04:04:39 GMT
+- request:
+    method: delete
+    uri: https://api.openai.com/v1/files/file-5EJicVxw84net8of7eNHW8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - llm.rb v4.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer TOKEN
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 06 Mar 2026 04:04:52 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Server:
+      - cloudflare
+      X-Request-Id:
+      - req_0e85d808b5134b43ab80f12ee2253234
+      Openai-Processing-Ms:
+      - '576'
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-j1pztzt5nogpcsid23u7gskj
+      Openai-Project:
+      - proj_YSiqu4bByPgi6EwPnLiY8irR
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=hm85hbC0h0aw7Mr9Tz878TbIvCabsMKIDBTX1N_bQrk-1772769891.3479187-1.0.1.1-JuESY.eOaQ.WXChaQVHhFq1abgCp6Yz7ZBmM3GoEO.1QB_W81ZDQhI4n4UvSzZqjkWrZ9vNEaaadi9upLik_c5ie_s5gzp5b425an.SVntnkIOP33tJQ74vFrCK5njed;
+        HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Fri, 06 Mar 2026
+        04:34:52 GMT
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Cf-Ray:
+      - 9d7e7a8ced536228-GRU
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "object": "file",
+          "deleted": true,
+          "id": "file-5EJicVxw84net8of7eNHW8"
+        }
+  recorded_at: Fri, 06 Mar 2026 04:04:40 GMT
+recorded_with: VCR 6.3.1

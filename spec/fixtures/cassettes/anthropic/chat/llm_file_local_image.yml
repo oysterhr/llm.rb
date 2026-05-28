@@ -1,0 +1,86 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.anthropic.com/v1/messages
+    body:
+      encoding: UTF-8
+      string: '{"messages":[{"role":"user","content":[{"type":"text","text":"Could
+        the image be a book ?"},{"type":"text","text":"If there is any chance, answer
+        in the affirmative"},{"type":"text","text":"Answer with yes or no"},{"type":"text","text":"Nothing
+        else"},{"type":"text","text":"spec/fixtures/images/bluebook.png"}]}],"model":"claude-sonnet-4-20250514","max_tokens":1024}'
+    headers:
+      Content-Type:
+      - application/json
+      X-Api-Key:
+      - TOKEN
+      Anthropic-Version:
+      - '2023-06-01'
+      Anthropic-Beta:
+      - files-api-2025-04-14
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 28 Jan 2026 15:08:19 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Anthropic-Ratelimit-Input-Tokens-Limit:
+      - '30000'
+      Anthropic-Ratelimit-Input-Tokens-Remaining:
+      - '11000'
+      Anthropic-Ratelimit-Input-Tokens-Reset:
+      - '2026-01-28T15:08:57Z'
+      Anthropic-Ratelimit-Output-Tokens-Limit:
+      - '8000'
+      Anthropic-Ratelimit-Output-Tokens-Remaining:
+      - '8000'
+      Anthropic-Ratelimit-Output-Tokens-Reset:
+      - '2026-01-28T15:08:19Z'
+      Anthropic-Ratelimit-Requests-Limit:
+      - '50'
+      Anthropic-Ratelimit-Requests-Remaining:
+      - '49'
+      Anthropic-Ratelimit-Requests-Reset:
+      - '2026-01-28T15:08:19Z'
+      Anthropic-Ratelimit-Tokens-Limit:
+      - '38000'
+      Anthropic-Ratelimit-Tokens-Remaining:
+      - '19000'
+      Anthropic-Ratelimit-Tokens-Reset:
+      - '2026-01-28T15:08:19Z'
+      Request-Id:
+      - req_011CXZzA9AFrvS4VvQ2veMf5
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Anthropic-Organization-Id:
+      - 89796e02-61da-4a75-b7ee-c55929f0d748
+      Server:
+      - cloudflare
+      X-Envoy-Upstream-Service-Time:
+      - '2039'
+      Cf-Cache-Status:
+      - DYNAMIC
+      X-Robots-Tag:
+      - none
+      Cf-Ray:
+      - 9c516783784fb3dd-MIA
+    body:
+      encoding: ASCII-8BIT
+      string: '{"model":"claude-sonnet-4-20250514","id":"msg_014qHT6uZsN54a1znz2or313","type":"message","role":"assistant","content":[{"type":"text","text":"Yes"}],"stop_reason":"end_turn","stop_sequence":null,"usage":{"input_tokens":45,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":4,"service_tier":"standard"}}'
+  recorded_at: Wed, 28 Jan 2026 15:07:31 GMT
+recorded_with: VCR 6.3.1

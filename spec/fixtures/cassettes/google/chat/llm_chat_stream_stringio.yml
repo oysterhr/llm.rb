@@ -1,0 +1,61 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?alt=sse&key=TOKEN
+    body:
+      encoding: UTF-8
+      string: '{"contents":[{"role":"user","parts":[{"text":"What is 3+2 ?"}]},{"role":"user","parts":[{"text":"What
+        is 5+5 ?"}]},{"role":"user","parts":[{"text":"What is 5+7 ?"}]},{"role":"user","parts":[{"text":"Keep
+        your answers short and concise, and provide three answers to the three questions.
+        There should be one answer per line. An answer should be a number, for example:
+        5. Nothing else"}]}]}'
+    headers:
+      User-Agent:
+      - llm.rb v4.8.0
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/event-stream
+      Content-Disposition:
+      - attachment
+      Vary:
+      - Origin
+      - Referer
+      - X-Origin
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Wed, 18 Mar 2026 04:28:48 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      X-Xss-Protection:
+      - '0'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Server-Timing:
+      - gfet4t7; dur=1732
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+    body:
+      encoding: UTF-8
+      string: "data: {\"candidates\": [{\"content\": {\"parts\": [{\"text\": \"5\\n10\\n12\"}],\"role\":
+        \"model\"},\"finishReason\": \"STOP\",\"index\": 0}],\"usageMetadata\": {\"promptTokenCount\":
+        64,\"candidatesTokenCount\": 7,\"totalTokenCount\": 149,\"promptTokensDetails\":
+        [{\"modality\": \"TEXT\",\"tokenCount\": 64}],\"thoughtsTokenCount\": 78},\"modelVersion\":
+        \"gemini-2.5-flash\",\"responseId\": \"_ym6ad_eI_yhz7IPu63l4Qs\"}\r\n\r\n"
+  recorded_at: Wed, 18 Mar 2026 04:28:34 GMT
+recorded_with: VCR 6.3.1

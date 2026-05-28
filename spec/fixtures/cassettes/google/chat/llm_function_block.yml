@@ -1,0 +1,169 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=TOKEN
+    body:
+      encoding: UTF-8
+      string: '{"contents":[{"role":"user","parts":[{"text":"What is the date?"}]},{"role":"user","parts":[{"text":"You
+        are a bot that can run UNIX commands"}]}],"tools":[{"functionDeclarations":[{"name":"system","description":"Runs
+        system commands","parameters":{"type":"object","properties":{"command":{"type":"string"}},"required":["command"]}}]}]}'
+    headers:
+      User-Agent:
+      - llm.rb v4.8.0
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Origin
+      - Referer
+      - X-Origin
+      Date:
+      - Wed, 18 Mar 2026 04:28:51 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      X-Xss-Protection:
+      - '0'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Server-Timing:
+      - gfet4t7; dur=1449
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "functionCall": {
+                      "name": "system",
+                      "args": {
+                        "command": "date"
+                      }
+                    },
+                    "thoughtSignature": "CvsBAb4+9vtFeV4HUZnGVc9yxTXuaj2S8hl8OifbyeT12NF/gCPqj7M/KeRstlBLIQVwUj3nwkl3rWCw+w4Hdr02MVOJhsfOaS/ONi1ShinEAzBuZtDQiQr1bmzLqP4SGrwNXGbsr2uIXEPUTdyShJruCTUY0RnzZZcZGtGv+tgOcieLiLV6+wC8ypHZ8fkVh0qrZIJWUHEj7+6JfP8lC4jPIaO29RqMsTXOJE2HQ0Osfbcl1lshWkLKYFPFaSo0XiEGK1hTjol2gAhPvARoh6yKiTyZ/z3ccZnvHoBuVpEKRWsu3W06/MurTgDSvsze8EPt20AlxhKHTT2tHAA="
+                  }
+                ],
+                "role": "model"
+              },
+              "finishReason": "STOP",
+              "index": 0,
+              "finishMessage": "Model generated function call(s)."
+            }
+          ],
+          "usageMetadata": {
+            "promptTokenCount": 49,
+            "candidatesTokenCount": 13,
+            "totalTokenCount": 115,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 49
+              }
+            ],
+            "thoughtsTokenCount": 53
+          },
+          "modelVersion": "gemini-2.5-flash",
+          "responseId": "Ayq6afeHC-umqtsP8NGCEA"
+        }
+  recorded_at: Wed, 18 Mar 2026 04:28:37 GMT
+- request:
+    method: post
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=TOKEN
+    body:
+      encoding: UTF-8
+      string: '{"contents":[{"role":"user","parts":[{"text":"You are a bot that can
+        run UNIX commands"}]},{"role":"user","parts":[{"text":"What is the date?"}]},{"role":"model","parts":[{"functionCall":{"name":"system","args":{"command":"date"}}}]},{"role":"user","parts":[{"functionResponse":{"name":"system","response":{"success":"2025-08-24"}}}]}],"tools":[{"functionDeclarations":[{"name":"system","description":"Runs
+        system commands","parameters":{"type":"object","properties":{"command":{"type":"string"}},"required":["command"]}}]}]}'
+    headers:
+      User-Agent:
+      - llm.rb v4.8.0
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Origin
+      - Referer
+      - X-Origin
+      Date:
+      - Wed, 18 Mar 2026 04:28:53 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      X-Xss-Protection:
+      - '0'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Server-Timing:
+      - gfet4t7; dur=1280
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "text": "The date is August 24, 2025."
+                  }
+                ],
+                "role": "model"
+              },
+              "finishReason": "STOP",
+              "index": 0
+            }
+          ],
+          "usageMetadata": {
+            "promptTokenCount": 84,
+            "candidatesTokenCount": 14,
+            "totalTokenCount": 98,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 84
+              }
+            ]
+          },
+          "modelVersion": "gemini-2.5-flash",
+          "responseId": "BCq6aZzkK-boz7IPuK3g8A4"
+        }
+  recorded_at: Wed, 18 Mar 2026 04:28:39 GMT
+recorded_with: VCR 6.3.1

@@ -1,0 +1,231 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"input":[{"role":"user","content":[{"type":"input_text","text":"Summarize
+        today''s news"}]}],"model":"gpt-4.1","store":false,"tools":[{"type":"web_search"}]}'
+    headers:
+      User-Agent:
+      - llm.rb v4.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer TOKEN
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 06 Mar 2026 04:04:30 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Server:
+      - cloudflare
+      X-Ratelimit-Limit-Requests:
+      - '500'
+      X-Ratelimit-Limit-Tokens:
+      - '30000'
+      X-Ratelimit-Remaining-Requests:
+      - '499'
+      X-Ratelimit-Remaining-Tokens:
+      - '0'
+      X-Ratelimit-Reset-Requests:
+      - 120ms
+      X-Ratelimit-Reset-Tokens:
+      - 1m4.941s
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-j1pztzt5nogpcsid23u7gskj
+      Openai-Project:
+      - proj_YSiqu4bByPgi6EwPnLiY8irR
+      X-Request-Id:
+      - req_04dd75aa8a0747e7aecf51f577e3b737
+      Openai-Processing-Ms:
+      - '9739'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=ThM7iiCQniSVvcFLWHl.mwjB.F9XwePaGrnhx1KQ6WE-1772769860.600579-1.0.1.1-PVcBhgbktrTozSoiVz94l.xlLVugp97LJxD250hCJzzqEMcbTDzGCHxnsxej00wCU5s1mz5mLdcE1ZQkJ2p93a8ahrJC4deppsAnQbCOUIGvZwhHq87IGFlV5p72fkYM;
+        HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Fri, 06 Mar 2026
+        04:34:30 GMT
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Cf-Ray:
+      - 9d7e79ccbe03a463-GRU
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+          "id": "resp_008b5e5f815cabc80169aa52451114819099ef600b09ebef97",
+          "object": "response",
+          "created_at": 1772769861,
+          "status": "completed",
+          "background": false,
+          "billing": {
+            "payer": "developer"
+          },
+          "completed_at": 1772769870,
+          "error": null,
+          "frequency_penalty": 0.0,
+          "incomplete_details": null,
+          "instructions": null,
+          "max_output_tokens": null,
+          "max_tool_calls": null,
+          "model": "gpt-4.1-2025-04-14",
+          "output": [
+            {
+              "id": "ws_008b5e5f815cabc80169aa5245ee288190bf2f3568e346f452",
+              "type": "web_search_call",
+              "status": "completed",
+              "action": {
+                "type": "search",
+                "queries": [
+                  "today's top news headlines"
+                ],
+                "query": "today's top news headlines"
+              }
+            },
+            {
+              "id": "msg_008b5e5f815cabc80169aa52490d188190b959aa2e0ef7284d",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [
+                    {
+                      "type": "url_citation",
+                      "end_index": 647,
+                      "start_index": 527,
+                      "title": "Human-caused climate change fuels early spring heat contributing to increasing severe weather risk across the central United States. | Climate Central",
+                      "url": "https://www.climatecentral.org/climate-shift-index-alert/central-us-march-2026?utm_source=openai"
+                    },
+                    {
+                      "type": "url_citation",
+                      "end_index": 1020,
+                      "start_index": 867,
+                      "title": "Multi day storm event forecast across central and southern United States, March 4-6 - The Watchers",
+                      "url": "https://watchers.news/2026/03/04/multi-day-storm-event-forecast-across-central-and-southern-united-states-march-4-6/?utm_source=openai"
+                    },
+                    {
+                      "type": "url_citation",
+                      "end_index": 1672,
+                      "start_index": 1537,
+                      "title": "March 6, 2026: National Advocacy Update | American Medical Association",
+                      "url": "https://www.ama-assn.org/health-care-advocacy/advocacy-update/march-6-2026-national-advocacy-update?utm_source=openai"
+                    },
+                    {
+                      "type": "url_citation",
+                      "end_index": 2182,
+                      "start_index": 2068,
+                      "title": "Xinhua world news summary at 0030 GMT, March 6",
+                      "url": "https://www.china.org.cn/world/Off_the_Wire/2026-03/06/content_118365048.shtml?utm_source=openai"
+                    },
+                    {
+                      "type": "url_citation",
+                      "end_index": 2999,
+                      "start_index": 2903,
+                      "title": "Weekly Immigration News \u2013 March 6, 2026 - McBean Immigration Law",
+                      "url": "https://mcbeanlaw.com/weekly-immigration-news-march-6-2026/?utm_source=openai"
+                    },
+                    {
+                      "type": "url_citation",
+                      "end_index": 4178,
+                      "start_index": 4076,
+                      "title": "Cyber News Roundup \u2013 March 6th 2026",
+                      "url": "https://www.integrity360.com/cyber-news-roundup-march-6th-2026?utm_source=openai"
+                    },
+                    {
+                      "type": "url_citation",
+                      "end_index": 4521,
+                      "start_index": 4407,
+                      "title": "Xinhua world news summary at 0030 GMT, March 6",
+                      "url": "https://www.china.org.cn/world/Off_the_Wire/2026-03/06/content_118365048.shtml?utm_source=openai"
+                    },
+                    {
+                      "type": "url_citation",
+                      "end_index": 4973,
+                      "start_index": 4881,
+                      "title": "2026 in American music",
+                      "url": "https://en.wikipedia.org/wiki/2026_in_American_music?utm_source=openai"
+                    }
+                  ],
+                  "logprobs": [],
+                  "text": "Here is a comprehensive summary of notable news from **Friday, March 6, 2026** (today\u2019s date):\n\n---\n\n##  Weather & Climate: Unseasonably Warm with Severe Weather Risks  \n- Much of the central and eastern U.S. is experiencing **springlike warmth**, with temperatures forecast to reach **73\u201390\u202f\u00b0F**, as much as **34\u202f\u00b0F above average** in the Upper Midwest. These conditions are driven in part by **human-caused climate change**, doubling the likelihood of such extreme heat across approximately **2.8 million square kilometers** ([climatecentral.org](https://www.climatecentral.org/climate-shift-index-alert/central-us-march-2026?utm_source=openai)).  \n- The **Storm Prediction Center** has issued an **Enhanced Risk** of severe thunderstorms\u2014threatening **damaging winds, large hail, and possibly tornadoes**\u2014across parts of the Southern and Central Plains on March 6 ([watchers.news](https://watchers.news/2026/03/04/multi-day-storm-event-forecast-across-central-and-southern-united-states-march-4-6/?utm_source=openai)).\n\n---\n\n##  U.S. Policy & Politics  \n- The **American Medical Association (AMA)** released a national advocacy update. It highlighted two bills recently passed by the Senate HELP Committee: the **Health Care Cybersecurity and Resiliency Act** and the **Living Donor Protection Act**, both receiving bipartisan support. The AMA also urged the **Assistant Secretary for Technology Policy (ASTP)** to preserve essential EHR functionality, maintain **AI transparency**, and ensure interoperability in upcoming rulemaking ([ama-assn.org](https://www.ama-assn.org/health-care-advocacy/advocacy-update/march-6-2026-national-advocacy-update?utm_source=openai)).  \n- In a major personnel development, **President Trump** announced via Truth Social that **Senator Markwayne Mullin (R\u2011Oklahoma)** will become the **Secretary of Homeland Security**, effective **March\u202f31, 2026**. The current Secretary, **Kristi Noem**, will transition to a newly created role as **Special Envoy for \u201cThe Shield of the Americas\u201d**, a new Western Hemisphere security initiative ([china.org.cn](https://www.china.org.cn/world/Off_the_Wire/2026-03/06/content_118365048.shtml?utm_source=openai)).  \n- The **Trump administration** requested that the **Supreme Court** allow it to terminate **Temporary Protected Status (TPS)** for about **7,000 Syrians** living in the U.S. Additionally, reports indicate plans to **close a controversial ICE jail in Texas**, where multiple detainee deaths occurred and a measles outbreak forced quarantines. Separately, **Hennepin County (MN)** launched an online portal for residents to report alleged immigrant enforcement abuses. Furthermore, ICE aims to spend **$220 million** on **17,800 Tasers**, a major increase from current levels. Meanwhile, advocates in **Los Angeles** raised concerns about a HUD proposal that could strip housing assistance from mixed-status households ([mcbeanlaw.com](https://mcbeanlaw.com/weekly-immigration-news-march-6-2026/?utm_source=openai)).\n\n---\n\n##  Cybersecurity & Cyber Threats  \n- A surge in **hacktivist cyber activity** has been observed in conjunction with escalating tensions in the Middle East. Between February 28 and March 2, over **149 DDoS attacks** were claimed, primarily in the Middle East, Europe, and North America.  \n- In response, **Europol**, with international cooperation and private sector support, disrupted the **Tycoon2FA phishing-as-a-service platform**, seizing **330 domains** tied to phishing operations.  \n- Meanwhile, researchers uncovered a phishing method exploiting **OAuth redirections** to bypass authentication safeguards, increasingly seen in attacks against government and public sector targets.  \n- Cyber threats are also rising in the **maritime sector**, where **ransomware** and **operational technology (OT)** attacks surged in 2025\u2014up **150%** for OT and **800%** for network device breaches. The report also noted widespread **GPS spoofing** incidents affecting thousands of vessels, highlighting the rapidly growing digital vulnerabilities in shipping infrastructure ([integrity360.com](https://www.integrity360.com/cyber-news-roundup-march-6th-2026?utm_source=openai)).\n\n---\n\n##  International Affairs  \n- In the **Middle East**, Israeli airstrikes targeted **southern Beirut\u2019s suburbs**, prompting warnings for residents to evacuate. This marks a significant escalation in the conflict landscape ([china.org.cn](https://www.china.org.cn/world/Off_the_Wire/2026-03/06/content_118365048.shtml?utm_source=openai)).\n\n---\n\n##  Culture & Entertainment  \n- In music news, **March 6, 2026** marks the release of several highly anticipated albums:\n  - **Gnarls Barkley** releases **\"Atlanta\"**, their first studio album in 18 years.\n  - Other long-awaited releases also drop today: **Surfbort** with *Reality Star*; **Vial** with *Hellhound*; and **Whiplash** with *Thrashquake* ([en.wikipedia.org](https://en.wikipedia.org/wiki/2026_in_American_music?utm_source=openai)).\n\n---\n\n### Summary Table\n\n| Category        | Notable Highlights |\n|-----------------|---------------------|\n| Weather         | Unseasonable warmth; severe weather risk across central U.S. |\n| U.S. Policy     | AMA advocacy; Homeland Security leadership change; TPS and ICE policy updates |\n| Cybersecurity   | Surge in hacktivist attacks; phishing platform disrupted; maritime cyber threats rise |\n| International   | Israeli airstrikes on Beirut suburbs |\n| Entertainment   | Major album releases from Gnarls Barkley, Surfbort, Vial, and Whiplash |\n\n---\n\n If you'd like to explore any of these topics further\u2014such as more details on the breakout albums, climate data, U.S. policy changes, or global developments\u2014just let me know!"
+                }
+              ],
+              "role": "assistant"
+            }
+          ],
+          "parallel_tool_calls": true,
+          "presence_penalty": 0.0,
+          "previous_response_id": null,
+          "prompt_cache_key": null,
+          "prompt_cache_retention": null,
+          "reasoning": {
+            "effort": null,
+            "summary": null
+          },
+          "safety_identifier": null,
+          "service_tier": "default",
+          "store": false,
+          "temperature": 1.0,
+          "text": {
+            "format": {
+              "type": "text"
+            },
+            "verbosity": "medium"
+          },
+          "tool_choice": "auto",
+          "tools": [
+            {
+              "type": "web_search",
+              "filters": null,
+              "search_context_size": "medium",
+              "user_location": {
+                "type": "approximate",
+                "city": null,
+                "country": "US",
+                "region": null,
+                "timezone": null
+              }
+            }
+          ],
+          "top_logprobs": 0,
+          "top_p": 1.0,
+          "truncation": "disabled",
+          "usage": {
+            "input_tokens": 31641,
+            "input_tokens_details": {
+              "cached_tokens": 0
+            },
+            "output_tokens": 1155,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 32796
+          },
+          "user": null,
+          "metadata": {}
+        }
+  recorded_at: Fri, 06 Mar 2026 04:04:18 GMT
+recorded_with: VCR 6.3.1

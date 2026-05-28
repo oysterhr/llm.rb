@@ -1,0 +1,51 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:11434/api/chat
+    body:
+      encoding: UTF-8
+      string: '{"messages":[{"role":"user","content":"Your favorite fruit is pineapple"},{"role":"user","content":"What
+        fruit is your favorite?"}],"model":"qwen3:latest","schema":{"type":"object","properties":{"fruit":{"description":"The
+        favorite fruit","enum":["apple","pineapple","orange"],"type":"string"}},"required":["fruit"]},"format":{"type":"object","properties":{"fruit":{"description":"The
+        favorite fruit","enum":["apple","pineapple","orange"],"type":"string"}},"required":["fruit"]},"stream":true}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/x-ndjson
+      Date:
+      - Thu, 05 Jun 2025 00:31:48 GMT
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {"model":"qwen3:latest","created_at":"2025-06-05T00:31:48.604754409Z","message":{"role":"assistant","content":"{\n"},"done":false}
+        {"model":"qwen3:latest","created_at":"2025-06-05T00:31:48.626512519Z","message":{"role":"assistant","content":" "},"done":false}
+        {"model":"qwen3:latest","created_at":"2025-06-05T00:31:48.647721058Z","message":{"role":"assistant","content":" \""},"done":false}
+        {"model":"qwen3:latest","created_at":"2025-06-05T00:31:48.679052784Z","message":{"role":"assistant","content":"fruit"},"done":false}
+        {"model":"qwen3:latest","created_at":"2025-06-05T00:31:48.699548193Z","message":{"role":"assistant","content":"\":"},"done":false}
+        {"model":"qwen3:latest","created_at":"2025-06-05T00:31:48.719940543Z","message":{"role":"assistant","content":" \""},"done":false}
+        {"model":"qwen3:latest","created_at":"2025-06-05T00:31:48.740345052Z","message":{"role":"assistant","content":"pine"},"done":false}
+        {"model":"qwen3:latest","created_at":"2025-06-05T00:31:48.760764403Z","message":{"role":"assistant","content":"apple"},"done":false}
+        {"model":"qwen3:latest","created_at":"2025-06-05T00:31:48.781146798Z","message":{"role":"assistant","content":"\"\n"},"done":false}
+        {"model":"qwen3:latest","created_at":"2025-06-05T00:31:48.80160543Z","message":{"role":"assistant","content":"}\n\n"},"done":false}
+        {"model":"qwen3:latest","created_at":"2025-06-05T00:31:48.834968123Z","message":{"role":"assistant","content":""},"done_reason":"stop","done":true,"total_duration":279534403,"load_duration":9259789,"prompt_eval_count":20,"prompt_eval_duration":13144633,"eval_count":11,"eval_duration":255300244}
+  recorded_at: Thu, 05 Jun 2025 00:31:48 GMT
+recorded_with: VCR 6.3.1

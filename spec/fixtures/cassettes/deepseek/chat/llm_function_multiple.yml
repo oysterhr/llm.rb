@@ -1,0 +1,133 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.deepseek.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"messages":[{"role":"user","content":"You are a bot that can run UNIX
+        commands"},{"role":"user","content":"Can you run the date command ? Can you
+        run the pwd command ? Can you run the whoami command ?"}],"model":"deepseek-chat","tools":[{"type":"function","name":"system","function":{"name":"system","description":"Run
+        a shell command","parameters":{"type":"object","properties":{"command":{"type":"string"}},"required":["command"]}}}]}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer TOKEN
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 29 Aug 2025 16:53:01 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Ds-Trace-Id:
+      - cd2972280458b03fcf8d354cde71b90a
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=2Z7JKt_RGF0E0mgmJqvA61yKG6pmXCPzqcR1J_Rqh4k-1756486381-1.0.1.1-.5KOzqABHNqk3iGSllbWvm.4phu76NAf9uE3U6CIYx92D3eOd77EgICiQbWQdSOEacmoELiRv97qmzpLA3ThW3YkWFNOnvnlKU7xO6.pZC4;
+        path=/; expires=Fri, 29-Aug-25 17:23:01 GMT; domain=.deepseek.com; HttpOnly;
+        Secure; SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 976d8feacda1a178-GRU
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"2e175a95-0df7-4004-8428-4b56efe095fd","object":"chat.completion","created":1756486381,"model":"deepseek-chat","choices":[{"index":0,"message":{"role":"assistant","content":"I''ll
+        run those three UNIX commands for you:","tool_calls":[{"index":0,"id":"call_0_eec54f4b-b541-4917-8d29-ecede4576124","type":"function","function":{"name":"system","arguments":"{\"command\":
+        \"date\"}"}},{"index":1,"id":"call_1_ab906d82-adbb-4807-b778-df75097c591d","type":"function","function":{"name":"system","arguments":"{\"command\":
+        \"pwd\"}"}},{"index":2,"id":"call_2_406e6385-9e23-403b-aefa-f92cb93dec90","type":"function","function":{"name":"system","arguments":"{\"command\":
+        \"whoami\"}"}}]},"logprobs":null,"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":175,"completion_tokens":44,"total_tokens":219,"prompt_tokens_details":{"cached_tokens":128},"prompt_cache_hit_tokens":128,"prompt_cache_miss_tokens":47},"system_fingerprint":"fp_feb633d1f5_prod0820_fp8_kvcache"}'
+  recorded_at: Fri, 29 Aug 2025 16:52:56 GMT
+- request:
+    method: post
+    uri: https://api.deepseek.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"messages":[{"role":"user","content":"You are a bot that can run UNIX
+        commands"},{"role":"user","content":"Can you run the date command ? Can you
+        run the pwd command ? Can you run the whoami command ?"},{"role":"assistant","content":null,"tool_calls":[{"index":0,"id":"call_0_eec54f4b-b541-4917-8d29-ecede4576124","type":"function","function":{"name":"system","arguments":"{\"command\":
+        \"date\"}"}},{"index":1,"id":"call_1_ab906d82-adbb-4807-b778-df75097c591d","type":"function","function":{"name":"system","arguments":"{\"command\":
+        \"pwd\"}"}},{"index":2,"id":"call_2_406e6385-9e23-403b-aefa-f92cb93dec90","type":"function","function":{"name":"system","arguments":"{\"command\":
+        \"whoami\"}"}}]},{"role":"tool","tool_call_id":"call_0_eec54f4b-b541-4917-8d29-ecede4576124","content":"{\"stderr\":\"\",\"stdout\":\"Fri
+        Aug 29 16:52:56 UTC 2025\\n\"}"},{"role":"tool","tool_call_id":"call_1_ab906d82-adbb-4807-b778-df75097c591d","content":"{\"stderr\":\"\",\"stdout\":\"/home/developer/p/git.home.network/0x1eef/ruby/llm.rb\\n\"}"},{"role":"tool","tool_call_id":"call_2_406e6385-9e23-403b-aefa-f92cb93dec90","content":"{\"stderr\":\"\",\"stdout\":\"developer\\n\"}"}],"model":"deepseek-chat","tools":[{"type":"function","name":"system","function":{"name":"system","description":"Run
+        a shell command","parameters":{"type":"object","properties":{"command":{"type":"string"}},"required":["command"]}}}]}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer TOKEN
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 29 Aug 2025 16:53:08 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Ds-Trace-Id:
+      - 382d4113a72300df199058b62da7ad9f
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=peSq9LF8Xu4a9if3WaQFiwqo5RvnA67oqpXdKV.F1nA-1756486388-1.0.1.1-XnpsYCw3usErxpjGhgYqteNfVH.yPHdXs7E1CJKW0CuaSlZlcpabS47eSDlQDgWpVRFSmxs9fovjY0aRtBcV_jOnrHVkefVw3MIN6OZazQI;
+        path=/; expires=Fri, 29-Aug-25 17:23:08 GMT; domain=.deepseek.com; HttpOnly;
+        Secure; SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 976d900e5e18aea2-GRU
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"645eb96e-702d-413b-9b46-bf3e8c368a02","object":"chat.completion","created":1756486387,"model":"deepseek-chat","choices":[{"index":0,"message":{"role":"assistant","content":"I''ve
+        run all three commands you requested:\n\n1. **date**: The current date and
+        time is Fri Aug 29 16:52:56 UTC 2025\n2. **pwd**: The current working directory
+        is `/home/developer/p/git.home.network/0x1eef/ruby/llm.rb`\n3. **whoami**:
+        The current user is `developer`"},"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":283,"completion_tokens":82,"total_tokens":365,"prompt_tokens_details":{"cached_tokens":192},"prompt_cache_hit_tokens":192,"prompt_cache_miss_tokens":91},"system_fingerprint":"fp_feb633d1f5_prod0820_fp8_kvcache"}'
+  recorded_at: Fri, 29 Aug 2025 16:53:04 GMT
+recorded_with: VCR 6.3.1
