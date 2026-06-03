@@ -10,6 +10,7 @@ module LLM
   #   llm.tracer = LLM::Tracer::Langsmith.new(
   #     llm,
   #     session_id: "123e4567-e89b-12d3-a456-426614174000",
+  #     reference_example_id: "123e4567-e89b-12d3-a456-426614174001",
   #     metadata: {env: "dev"},
   #     tags: ["changelog"]
   #   )
@@ -92,6 +93,9 @@ module LLM
         attributes["langsmith.span.tags"] = @langsmith_tags.map(&:to_s).join(",")
       end
       attributes["langsmith.span.kind"] = span_kind
+      unless @langsmith_reference_example_id.to_s.empty?
+        attributes["langsmith.reference_example_id"] = @langsmith_reference_example_id
+      end
       attributes
     end
 
@@ -114,6 +118,7 @@ module LLM
         options[:session_id],
         metadata: @langsmith_metadata
       )
+      @langsmith_reference_example_id = options[:reference_example_id]
       @langsmith_tags = options[:tags] || []
     end
 
