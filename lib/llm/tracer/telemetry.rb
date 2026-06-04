@@ -190,6 +190,40 @@ module LLM
       nil
     end
 
+    ##
+    # Emits a standalone span (no OTel parent context) whose LangSmith run identity
+    # is controlled via attributes (e.g. `langsmith.span.id`). Useful for emitting a
+    # synthetic "chain" parent span after a turn completes, linking sibling spans via
+    # `langsmith.span.parent_id` attributes set by the children.
+    #
+    # @param [String] span_id Stamped as `langsmith.span.id` on the span.
+    # @param [String] name Span name.
+    # @param [Time] started_at Span start timestamp.
+    # @param [Time] finished_at Span end timestamp.
+    # @param [Hash] attributes Additional span attributes (string-keyed).
+    # @param [Hash] metadata Hash merged in as `langsmith.metadata.*` attributes.
+    # @return [Object] The finished span.
+    def emit_chain_span(span_id:, name:, started_at:, finished_at:, attributes: {}, metadata: {})
+      attrs = {}
+      trace_attributes(span_kind: "chain").each { |k, v| attrs[k.to_s] = v }
+      attributes.each { |k, v| attrs[k.to_s] = v unless v.nil? }
+      attrs["langsmith.span.id"] = span_id
+      attrs["langsmith.span.kind"] = "chain"
+      attrs.delete("langsmith.span.parent_id") # synthetic root must not point to itself
+      metadata.each do |k, v|
+        next if v.nil?
+        attrs["langsmith.metadata.#{k}"] = serialize_span_value(v)
+      end
+      span = @tracer.start_span(
+        name,
+        kind: :internal,
+        attributes: attrs,
+        start_timestamp: started_at
+      )
+      span.finish(end_timestamp: finished_at)
+      span
+    end
+
     private
 
     ##

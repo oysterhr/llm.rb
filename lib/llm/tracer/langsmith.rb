@@ -40,6 +40,8 @@ module LLM
       setup_langsmith!(options)
     end
 
+    attr_accessor :parent_span_id
+
     def start_trace(trace_group_id: nil, name: "llm", attributes: {}, metadata: nil)
       merge_extra(metadata: metadata) if metadata && !metadata.empty?
       super
@@ -96,6 +98,9 @@ module LLM
       unless @langsmith_reference_example_id.to_s.empty?
         attributes["langsmith.reference_example_id"] = @langsmith_reference_example_id
       end
+      unless @parent_span_id.to_s.empty?
+        attributes["langsmith.span.parent_id"] = @parent_span_id
+      end
       attributes
     end
 
@@ -120,6 +125,7 @@ module LLM
       )
       @langsmith_reference_example_id = options[:reference_example_id]
       @langsmith_tags = options[:tags] || []
+      @parent_span_id = options[:parent_span_id]
     end
 
     def serialize_langsmith_value(value)
