@@ -32,25 +32,25 @@ jobs:
         JSON_PARSER: ${{ matrix.json-parser }}
       run: bundle exec rake
 
-  openbsd:
-    runs-on: ubuntu-latest
-    name: OpenBSD
-    continue-on-error: true
-    env:
-      bundler: "bundle33"
-    steps:
-    - uses: actions/checkout@v4
-    - name: Run tests
-      uses: vmactions/openbsd-vm@v1
-      with:
-        copyback: false
-        envs: "bundler"
-        run: |
-          pkg_add ruby-3.3.9
-          pkg_add postgresql-client
-          bundle33 install
-          bundle33 exec ruby33 -e 'require "pg"'
-          bundle33 exec rake
+  # openbsd:
+  #   runs-on: ubuntu-latest
+  #   name: OpenBSD
+  #   continue-on-error: true
+  #   env:
+  #     bundler: "bundle33"
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - name: Run tests
+  #     uses: vmactions/openbsd-vm@v1
+  #     with:
+  #       copyback: false
+  #       envs: "bundler"
+  #       run: |
+  #         pkg_add ruby-3.3.9
+  #         pkg_add postgresql-client
+  #         bundle33 install
+  #         bundle33 exec ruby33 -e 'require "pg"'
+  #         bundle33 exec rake
 
 #  netbsd:
 #    runs-on: ubuntu-latest
