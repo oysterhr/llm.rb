@@ -116,4 +116,76 @@ RSpec.describe LLM::Tracer::Telemetry do
       expect(tracer.flush!).to be_nil
     end
   end
+
+  describe "#emit_chain_span" do
+    let(:span_id) { "eeeeeeee-5555-4555-8555-eeeeeeeeeeee" }
+    let(:started_at) { Time.at(1_700_000_000) }
+    let(:finished_at) { Time.at(1_700_000_010) }
+
+    it "returns a finished span with the given name" do
+      span = tracer.emit_chain_span(
+        span_id:, name: "chatbot.turn",
+        started_at:, finished_at:
+      )
+      expect(span).to be_a(OpenTelemetry::SDK::Trace::Span)
+      expect(span.name).to eq("chatbot.turn")
+    end
+
+    it "stamps langsmith.span.id and langsmith.span.kind=chain" do
+      tracer.emit_chain_span(
+        span_id:, name: "chatbot.turn",
+        started_at:, finished_at:
+      )
+      attrs = tracer.spans.last.attributes
+      expect(attrs).to include(
+        "langsmith.span.id" => span_id,
+        "langsmith.span.kind" => "chain"
+      )
+    end
+
+    it "stamps custom attributes and skips nil values" do
+      tracer.emit_chain_span(
+        span_id:, name: "chatbot.turn",
+        started_at:, finished_at:,
+        attributes: {"custom.key" => "value", "custom.nil" => nil}
+      )
+      attrs = tracer.spans.last.attributes
+      expect(attrs).to include("custom.key" => "value")
+      expect(attrs).not_to have_key("custom.nil")
+    end
+
+    it "stamps metadata as langsmith.metadata.* and serializes complex values to JSON" do
+      tracer.emit_chain_span(
+        span_id:, name: "chatbot.turn",
+        started_at:, finished_at:,
+        metadata: {turn_id: "t-1", payload: {a: 1}, skipped: nil}
+      )
+      attrs = tracer.spans.last.attributes
+      expect(attrs).to include(
+        "langsmith.metadata.turn_id" => "t-1",
+        "langsmith.metadata.payload" => LLM.json.dump({a: 1})
+      )
+      expect(attrs).not_to have_key("langsmith.metadata.skipped")
+    end
+
+    it "drops langsmith.span.parent_id passed via attributes (synthetic root invariant)" do
+      tracer.emit_chain_span(
+        span_id:, name: "chatbot.turn",
+        started_at:, finished_at:,
+        attributes: {"langsmith.span.parent_id" => "should-be-dropped"}
+      )
+      attrs = tracer.spans.last.attributes
+      expect(attrs).not_to have_key("langsmith.span.parent_id")
+    end
+
+    it "honors the provided start and end timestamps" do
+      tracer.emit_chain_span(
+        span_id:, name: "chatbot.turn",
+        started_at:, finished_at:
+      )
+      span_data = tracer.spans.last
+      expect(span_data.start_timestamp).to eq((started_at.to_r * 1_000_000_000).to_i)
+      expect(span_data.end_timestamp).to eq((finished_at.to_r * 1_000_000_000).to_i)
+    end
+  end
 end
