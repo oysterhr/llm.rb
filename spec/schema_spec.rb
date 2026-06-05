@@ -36,6 +36,11 @@ RSpec.describe LLM::Schema do
         schema.array(schema.string).description("addresses description")
       )
     end
+
+    it "serializes with the standard JSON generator" do
+      skip "requires json gem" unless ENV.fetch("JSON_PARSER", "JSON") == "JSON"
+      expect(JSON.dump(schema.object)).to include(%("properties"))
+    end
   end
 
   context "when given nested schema classes" do

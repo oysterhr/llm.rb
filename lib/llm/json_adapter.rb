@@ -35,9 +35,15 @@ module LLM
   class JSONAdapter::JSON < JSONAdapter
     ##
     # @return (see JSONAdapter#dump)
-    def self.dump(obj, ...)
+    def self.dump(obj, state = nil, **options)
       require "json" unless defined?(::JSON)
-      ::JSON.dump(obj, ...)
+      if ::JSON::State === state
+        ::JSON.generate(obj, state)
+      elsif state
+        ::JSON.dump(obj, state, **options)
+      else
+        ::JSON.dump(obj, **options)
+      end
     end
 
     ##
