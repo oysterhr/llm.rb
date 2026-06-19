@@ -21,11 +21,24 @@ class LLM::Google
     ##
     # @param [Hash] params
     # @return [Hash]
-    def adapt_schema(params)
-      return {} unless params and params[:schema]
-      schema = params.delete(:schema)
-      schema = schema.respond_to?(:object) ? schema.object : schema
-      {generationConfig: {response_mime_type: "application/json", response_schema: schema}}
+    def adapt_generation_config(params)
+      return {} unless params
+
+      config = {}
+      if params[:schema]
+        schema = params.delete(:schema)
+        schema = schema.respond_to?(:object) ? schema.object : schema
+        config.merge!(
+          response_mime_type: "application/json",
+          response_schema: schema
+        )
+      end
+      config[:temperature] = params.delete(:temperature) if params.key?(:temperature)
+      config[:topP] = params.delete(:top_p) if params.key?(:top_p)
+      config[:topK] = params.delete(:top_k) if params.key?(:top_k)
+      config[:maxOutputTokens] = params.delete(:max_tokens) if params[:max_tokens]
+      config[:stopSequences] = params.delete(:stop) if params[:stop]
+      config.empty? ? {} : {generationConfig: config}
     end
 
     ##

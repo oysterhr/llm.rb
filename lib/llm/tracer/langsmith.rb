@@ -92,7 +92,7 @@ module LLM
         attributes[attr_key] = serialize_langsmith_value(value)
       end
       unless @langsmith_tags.empty?
-        attributes["langsmith.span.tags"] = @langsmith_tags.map(&:to_s).join(",")
+        attributes["langsmith.span.tags"] = @langsmith_tags.join(",")
       end
       attributes["langsmith.span.kind"] = span_kind
       unless @langsmith_reference_example_id.to_s.empty?

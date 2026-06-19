@@ -21,6 +21,20 @@ RSpec.describe LLM::Context do
       subject { ctx.params }
       it { is_expected.to include(model:) }
     end
+
+    context "when given temperature" do
+      let(:ctx) { LLM::Context.new(provider, model:, temperature: 0.7) }
+
+      it "stores temperature in params" do
+        expect(ctx.params).to include(temperature: 0.7)
+      end
+
+      it "passes per-call temperature override to complete" do
+        response = double(choices: [LLM::Message.new("assistant", "ok")])
+        expect(provider).to receive(:complete).with("hello", hash_including(temperature: 0.2)).and_return(response)
+        ctx.talk("hello", temperature: 0.2)
+      end
+    end
   end
 
   context "when given anthropic" do

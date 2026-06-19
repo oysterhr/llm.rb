@@ -147,6 +147,7 @@ module LLM
     #  Any parameter the provider supports can be included and
     #  not only those listed here.
     # @option params [String] :model Defaults to the provider's default model
+    # @option params [Float] :temperature Sampling temperature for generation
     # @option params [Array<LLM::Function>, nil] :tools Defaults to nil
     # @option params [Array<String>, nil] :skills Defaults to nil
     # @option params [#to_json, nil] :schema Defaults to nil

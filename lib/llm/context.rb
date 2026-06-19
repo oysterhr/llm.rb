@@ -79,6 +79,7 @@ module LLM
     #  not only those listed here.
     # @option params [Symbol] :mode Defaults to :completions
     # @option params [String] :model Defaults to the provider's default model
+    # @option params [Float] :temperature Sampling temperature for generation
     # @option params [Array<LLM::Function>, nil] :tools Defaults to nil
     # @option params [Array<String>, nil] :skills Defaults to nil
     def initialize(llm, params = {})
@@ -178,7 +179,7 @@ module LLM
     # This method immediately sends a request to the LLM and returns the response.
     #
     # @param prompt (see LLM::Provider#complete)
-    # @param params The params, including optional :role (defaults to :user), :stream, :tools, :schema etc.
+    # @param params The params, including optional :role (defaults to :user), :stream, :tools, :schema, :temperature, etc.
     # @return [LLM::Response] Returns the LLM's response for this turn.
     # @example
     #   llm = LLM.openai(key: ENV["KEY"])
@@ -209,7 +210,7 @@ module LLM
     #
     # @note Not all LLM providers support this API
     # @param prompt (see LLM::Provider#complete)
-    # @param params The params, including optional :role (defaults to :user), :stream, :tools, :schema etc.
+    # @param params The params, including optional :role (defaults to :user), :stream, :tools, :schema, :temperature, etc.
     # @return [LLM::Response] Returns the LLM's response for this turn.
     # @example
     #   llm = LLM.openai(key: ENV["KEY"])

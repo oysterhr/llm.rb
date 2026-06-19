@@ -87,6 +87,7 @@ class LLM::Provider
   #  not only those listed here.
   # @option params [Symbol] :role Defaults to the provider's default role
   # @option params [String] :model Defaults to the provider's default model
+  # @option params [Float] :temperature Sampling temperature for generation
   # @option params [#to_json, nil] :schema Defaults to nil
   # @option params [Array<LLM::Function>, nil] :tools Defaults to nil
   # @raise [NotImplementedError]
