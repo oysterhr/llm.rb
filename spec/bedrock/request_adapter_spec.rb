@@ -156,4 +156,23 @@ RSpec.describe "LLM::Bedrock" do
       }
     end
   end
+
+  context "when given temperature" do
+    before do
+      stub_request(:post, url)
+        .to_return(
+          status: 200,
+          body: LLM.json.dump(response_body),
+          headers: {"Content-Type" => "application/json"}
+        )
+      provider.complete("ping", model: "test-model", temperature: 0.3)
+    end
+
+    it "sends temperature in inferenceConfig" do
+      expect(WebMock).to have_requested(:post, url).with { |request|
+        body = LLM.json.load(request.body)
+        expect(body.dig("inferenceConfig", "temperature")).to eq(0.3)
+      }
+    end
+  end
 end

@@ -7,7 +7,7 @@
 # the number of input, output, reasoning and overall token count.
 # It can also help track usage of the context window (which may
 # vary by model).
-class LLM::Usage < Struct.new(:input_tokens, :output_tokens, :reasoning_tokens, :total_tokens, keyword_init: true)
+class LLM::Usage < Struct.new(:input_tokens, :output_tokens, :reasoning_tokens, :total_tokens)
   ##
   # @return [String]
   def to_json(...)

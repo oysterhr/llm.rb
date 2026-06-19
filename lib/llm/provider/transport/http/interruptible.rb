@@ -12,7 +12,7 @@ class LLM::Provider
   # @api private
   module Transport::HTTP::Interruptible
     INTERRUPT_ERRORS = [::IOError, ::EOFError, Errno::EBADF].freeze
-    Request = Struct.new(:http, :connection, keyword_init: true)
+    Request = Struct.new(:http, :connection)
 
     def interrupt_errors
       [*INTERRUPT_ERRORS, *optional_interrupt_errors]
