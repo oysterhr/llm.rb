@@ -2,19 +2,6 @@
 
 ## Unreleased
 
-## v8.1.2
-
-Changes since `v8.1.1`.
-
-### Fix
-
-* **Release ActiveRecord connections held by `:thread`-spawned tool calls** <br>
-  `LLM::Function#spawn(:thread)` now releases any ActiveRecord
-  connection a spawned thread checked out once the tool call finishes,
-  including when it raises, so repeated `:thread` dispatch of
-  ActiveRecord-backed tools no longer leaks connections out of the
-  pool. A no-op when ActiveRecord isn't loaded.
-
 ## v8.1.0
 
 Changes since `v8.0.0`.

@@ -224,7 +224,7 @@ class LLM::Function
       LLM.require "async" unless defined?(::Async)
       Async { call! }
     when :thread
-      Thread.new { with_active_record_connection { call! } }
+      Thread.new { call! }
     when :fiber
       raise ArgumentError, "Fiber concurrency requires Fiber.scheduler" unless Fiber.scheduler
       Fiber.schedule { call! }
@@ -356,20 +356,5 @@ class LLM::Function
     llm = @tracer&.llm
     return call unless llm.respond_to?(:with_tracer)
     llm.with_tracer(@tracer) { call }
-  end
-
-  ##
-  # Ensures a thread that checks out an ActiveRecord connection returns
-  # it to the pool when done, including when the block raises. Only
-  # releases a connection if this thread actually checked one out, so
-  # tools that never touch ActiveRecord don't hold a pool connection
-  # for no reason. A no-op when ActiveRecord isn't loaded, since llm.rb
-  # has no hard Rails dependency.
-  #
-  # @return [Object] the block's return value
-  def with_active_record_connection
-    yield
-  ensure
-    ::ActiveRecord::Base.connection_handler.clear_active_connections! if defined?(::ActiveRecord::Base)
   end
 end
