@@ -66,14 +66,12 @@ module LLM::Anthropic::ResponseAdapter
     private
 
     def adapt_choices
-      source = texts.empty? && tools.any? ? [{"text" => ""}] : texts
-      source.map.with_index do |choice, index|
-        extra = {
-          index:, response: self,
-          tool_calls: adapt_tool_calls(tools), original_tool_calls: tools
-        }
-        LLM::Message.new(role, choice["text"], extra)
-      end
+      return [] if texts.empty? && tools.empty?
+      extra = {
+        index: 0, response: self,
+        tool_calls: adapt_tool_calls(tools), original_tool_calls: tools
+      }
+      [LLM::Message.new(role, texts.map { _1["text"] }.join, extra)]
     end
 
     def adapt_tool_calls(tools)
