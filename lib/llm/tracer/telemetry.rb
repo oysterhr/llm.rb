@@ -61,15 +61,22 @@ module LLM
     #  An LLM provider
     # @param [Hash] options
     # @option options [#export] :exporter
-    #  The span exporter. Ignored when +:tracer_provider+ is given.
+    #  The span exporter. Cannot be combined with +:tracer_provider+.
     # @option options [OpenTelemetry::SDK::Trace::TracerProvider] :tracer_provider
     #  A tracer provider to reuse. The caller owns it, including its span
     #  processors and their shutdown. When omitted, the tracer builds its own.
+    # @raise [ArgumentError]
+    #  When both +:exporter+ and +:tracer_provider+ are given, because the
+    #  exporter would never receive a span and {#spans} would silently be empty.
     # @return [LLM::Tracer::Telemetry]
     def initialize(provider, options = {})
       super
       @exporter = options.delete(:exporter)
       @tracer_provider = options.delete(:tracer_provider)
+      if @exporter && @tracer_provider
+        raise ArgumentError, "pass either :exporter or :tracer_provider, not both: " \
+          "attach the exporter to the tracer provider's span processor instead"
+      end
       setup!
     end
 

@@ -148,13 +148,15 @@ RSpec.describe LLM::Tracer::Telemetry do
       expect(Thread.list.size).to eq(threads_before)
     end
 
-    it "ignores the exporter option" do
-      other_exporter = OpenTelemetry::SDK::Trace::Export::InMemorySpanExporter.new
-      tracer = described_class.new(provider, tracer_provider:, exporter: other_exporter)
-      tracer.emit_chain_span(span_id: "s-1", name: "chatbot.turn", started_at: Time.now, finished_at: Time.now)
+    it "accepts a nil exporter" do
+      expect { described_class.new(provider, tracer_provider:, exporter: nil) }.not_to raise_error
+    end
 
-      expect(exporter.finished_spans.size).to eq(1)
-      expect(other_exporter.finished_spans).to be_empty
+    context "when also given an exporter" do
+      it "raises an ArgumentError" do
+        expect { described_class.new(provider, tracer_provider:, exporter:) }
+          .to raise_error(ArgumentError, /either :exporter or :tracer_provider/)
+      end
     end
   end
 

@@ -81,5 +81,10 @@ RSpec.describe LLM::Tracer::Langsmith do
 
       expect(exporter.finished_spans.map { _1.attributes["langsmith.span.id"] }).to eq(%w[s-0 s-1])
     end
+
+    it "raises an ArgumentError when also given an exporter" do
+      expect { described_class.new(provider, tracer_provider:, exporter:, session_id:) }
+        .to raise_error(ArgumentError, /either :exporter or :tracer_provider/)
+    end
   end
 end
