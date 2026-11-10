@@ -215,8 +215,7 @@ module LLM
       model_id = params.delete(:model) || default_model
       payload = build_converse_payload(messages, params)
       body = LLM.json.dump(payload)
-      path = stream ? "/model/#{model_id}/converse-stream" \
-                    : "/model/#{model_id}/converse"
+      path = stream ? "/model/#{model_id}/converse-stream" : "/model/#{model_id}/converse"
       req = Net::HTTP::Post.new(path, headers)
       set_body_stream(req, StringIO.new(body))
       [req, messages, body]
