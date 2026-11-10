@@ -257,6 +257,15 @@ module LLM
     private
 
     ##
+    # Appends the label set by {LLM::Tracer.with_span_label}, if any.
+    # @param [String] name
+    # @return [String]
+    # @api private
+    def labeled(name)
+      [name, LLM::Tracer.span_label].compact.join(" ")
+    end
+
+    ##
     # @api private
     def create_span(name, kind: :client, attributes: {})
       root_context = @root_context
@@ -347,7 +356,7 @@ module LLM
         "input.value" => serialize_request_value(input_value)
       }.merge!(trace_attributes(span_kind: "llm")).compact
       span_name = [operation, model].compact.join(" ")
-      span = create_span(span_name.empty? ? "gen_ai.request" : span_name, attributes:)
+      span = create_span(labeled(span_name.empty? ? "gen_ai.request" : span_name), attributes:)
       set_span_attributes(span, consume_extra_inputs.merge(inputs || {}))
       span.add_event("gen_ai.request.start")
       span
@@ -360,7 +369,7 @@ module LLM
         "server.address" => provider_host,
         "server.port" => provider_port
       }.merge!(trace_attributes(span_kind: "retriever")).compact
-      span = create_span(operation, attributes:)
+      span = create_span(labeled(operation), attributes:)
       span.add_event("gen_ai.request.start")
       span
     end

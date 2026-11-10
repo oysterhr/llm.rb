@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "securerandom"
+
 module LLM
   ##
   # LangSmith-specific tracer built on top of Telemetry. Supports extra
@@ -24,8 +26,16 @@ module LLM
   #
   # @example Trace-level metadata via start_trace
   #   tracer.start_trace(trace_group_id: turn.id, name: "chatbot.turn", metadata: { turn_id: turn.id })
+  #
+  # Spans started while a tool call runs are nested under that tool's
+  # span, across tracer instances and in the fibers and threads the tool
+  # starts. The tool span gets its own LangSmith run id
+  # (`langsmith.span.id`), and every other span started during the call
+  # names it as `langsmith.span.parent_id`.
   class Tracer::Langsmith < Tracer::Telemetry
     THREAD_EXTRA_KEY = :llm_langsmith_extra
+    TOOL_RUN_KEY = :llm_langsmith_tool_run
+    private_constant :TOOL_RUN_KEY
 
     UUID = /\A
       [0-9a-f]{8}-
@@ -77,6 +87,41 @@ module LLM
       thread_extra[:outputs].tap { thread_extra[:outputs] = {} }
     end
 
+    ##
+    # Starts the tool span with a LangSmith run id of its own, and makes
+    # it the parent of the spans started until the tool call ends.
+    # @param (see LLM::Tracer::Telemetry#on_tool_start)
+    # @return (see LLM::Tracer::Telemetry#on_tool_start)
+    def on_tool_start(**)
+      span = super
+      run_id = SecureRandom.uuid
+      span.set_attribute("langsmith.span.id", run_id)
+      Fiber[TOOL_RUN_KEY] = [run_id, Fiber[TOOL_RUN_KEY]].freeze
+      span
+    end
+
+    ##
+    # Finishes the tool span and restores the outer tool call's run as
+    # the parent, if there is one.
+    # @param (see LLM::Tracer::Telemetry#on_tool_finish)
+    # @return (see LLM::Tracer::Telemetry#on_tool_finish)
+    def on_tool_finish(**)
+      super
+    ensure
+      end_tool_run
+    end
+
+    ##
+    # Fails the tool span and restores the outer tool call's run as the
+    # parent, if there is one.
+    # @param (see LLM::Tracer::Telemetry#on_tool_error)
+    # @return (see LLM::Tracer::Telemetry#on_tool_error)
+    def on_tool_error(**)
+      super
+    ensure
+      end_tool_run
+    end
+
     private
 
     def trace_attributes(span_kind:)
@@ -98,10 +143,15 @@ module LLM
       unless @langsmith_reference_example_id.to_s.empty?
         attributes["langsmith.reference_example_id"] = @langsmith_reference_example_id
       end
-      unless @parent_span_id.to_s.empty?
-        attributes["langsmith.span.parent_id"] = @parent_span_id
+      parent_id = Fiber[TOOL_RUN_KEY]&.first || @parent_span_id
+      unless parent_id.to_s.empty?
+        attributes["langsmith.span.parent_id"] = parent_id
       end
       attributes
+    end
+
+    def end_tool_run
+      Fiber[TOOL_RUN_KEY] = Fiber[TOOL_RUN_KEY]&.last
     end
 
     def thread_extra

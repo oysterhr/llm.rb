@@ -14,6 +14,31 @@ module LLM
     require_relative "tracer/langsmith"
     require_relative "tracer/null"
 
+    SPAN_LABEL = :llm_tracer_span_label
+    private_constant :SPAN_LABEL
+
+    ##
+    # Labels the request spans started inside the block, on this fiber
+    # and the fibers and threads it starts. A tracer appends the label to
+    # the span name, so "retrieval" becomes "retrieval BR". The previous
+    # label is restored after the block.
+    # @param [String, nil] label The label. A blank label leaves names unchanged.
+    # @yieldreturn [Object] The block's result.
+    # @return [Object] The block's result.
+    def self.with_span_label(label)
+      previous = Fiber[SPAN_LABEL]
+      Fiber[SPAN_LABEL] = label.to_s.strip.empty? ? nil : label.to_s
+      yield
+    ensure
+      Fiber[SPAN_LABEL] = previous
+    end
+
+    ##
+    # @return [String, nil] The label set by {.with_span_label}, if any.
+    def self.span_label
+      Fiber[SPAN_LABEL]
+    end
+
     ##
     # @return [LLM::Provider]
     attr_reader :llm
