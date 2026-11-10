@@ -52,4 +52,39 @@ RSpec.describe LLM::Tracer::Langsmith do
       expect(attributes).to include("langsmith.span.parent_id" => parent_id)
     end
   end
+
+  context "when given a tracer_provider" do
+    let(:exporter) { OpenTelemetry::SDK::Trace::Export::InMemorySpanExporter.new }
+    let(:tracer_provider) do
+      OpenTelemetry::SDK::Trace::TracerProvider.new.tap do |tracer_provider|
+        tracer_provider.add_span_processor(OpenTelemetry::SDK::Trace::Export::SimpleSpanProcessor.new(exporter))
+      end
+    end
+    let(:session_id) { "aaaaaaaa-1111-4111-8111-aaaaaaaaaaaa" }
+    let(:tracer) { described_class.new(provider, tracer_provider:, session_id:, tags: ["anywhere"]) }
+
+    it "exports spans with LangSmith attributes through the given provider" do
+      tracer.emit_chain_span(span_id: "s-1", name: "chatbot.turn", started_at: Time.now, finished_at: Time.now)
+
+      expect(exporter.finished_spans.last.attributes).to include(
+        "langsmith.trace.session_id" => session_id,
+        "langsmith.span.tags" => "anywhere",
+        "langsmith.span.kind" => "chain"
+      )
+    end
+
+    it "shares the provider across tracers" do
+      other = described_class.new(provider, tracer_provider:)
+      [tracer, other].each_with_index do |t, i|
+        t.emit_chain_span(span_id: "s-#{i}", name: "chatbot.turn", started_at: Time.now, finished_at: Time.now)
+      end
+
+      expect(exporter.finished_spans.map { _1.attributes["langsmith.span.id"] }).to eq(%w[s-0 s-1])
+    end
+
+    it "raises an ArgumentError when also given an exporter" do
+      expect { described_class.new(provider, tracer_provider:, exporter:, session_id:) }
+        .to raise_error(ArgumentError, /either :exporter or :tracer_provider/)
+    end
+  end
 end
