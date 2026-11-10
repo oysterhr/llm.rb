@@ -117,6 +117,56 @@ RSpec.describe LLM::Tracer::Telemetry do
     end
   end
 
+  context "when given a tracer_provider" do
+    let(:exporter) { OpenTelemetry::SDK::Trace::Export::InMemorySpanExporter.new }
+    let(:tracer_provider) do
+      OpenTelemetry::SDK::Trace::TracerProvider.new.tap do |tracer_provider|
+        tracer_provider.add_span_processor(OpenTelemetry::SDK::Trace::Export::SimpleSpanProcessor.new(exporter))
+      end
+    end
+    let(:tracer) { described_class.new(provider, tracer_provider:) }
+
+    it "exports spans through the given provider" do
+      span = tracer.on_request_start(operation: "chat", model: "test-model")
+      tracer.on_request_error(ex: RuntimeError.new("yabadabadoo"), span:)
+
+      expect(exporter.finished_spans.map(&:name)).to eq(["chat test-model"])
+    end
+
+    it "does not build a span processor of its own" do
+      allow(OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor).to receive(:new).and_call_original
+      tracer
+
+      expect(OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor).not_to have_received(:new)
+    end
+
+    it "does not start a thread per tracer" do
+      tracer_provider
+      threads_before = Thread.list.size
+      20.times { described_class.new(provider, tracer_provider:) }
+
+      expect(Thread.list.size).to eq(threads_before)
+    end
+
+    it "ignores the exporter option" do
+      other_exporter = OpenTelemetry::SDK::Trace::Export::InMemorySpanExporter.new
+      tracer = described_class.new(provider, tracer_provider:, exporter: other_exporter)
+      tracer.emit_chain_span(span_id: "s-1", name: "chatbot.turn", started_at: Time.now, finished_at: Time.now)
+
+      expect(exporter.finished_spans.size).to eq(1)
+      expect(other_exporter.finished_spans).to be_empty
+    end
+  end
+
+  context "when not given a tracer_provider" do
+    it "builds its own provider with a batch span processor" do
+      allow(OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor).to receive(:new).and_call_original
+      tracer
+
+      expect(OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor).to have_received(:new).once
+    end
+  end
+
   describe "#emit_chain_span" do
     let(:span_id) { "eeeeeeee-5555-4555-8555-eeeeeeeeeeee" }
     let(:started_at) { Time.at(1_700_000_000) }

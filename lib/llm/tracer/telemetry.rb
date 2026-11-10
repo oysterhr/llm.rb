@@ -39,14 +39,37 @@ module LLM
   #   ctx = LLM::Context.new(llm)
   #   ctx.talk "hello"
   #   ctx.talk "how are you?"
+  #
+  # @example Shared tracer provider
+  #   #!/usr/bin/env ruby
+  #   require "llm"
+  #   require "opentelemetry-exporter-otlp"
+  #
+  #   # Build once per process, so all tracers export through one
+  #   # BatchSpanProcessor and do not each start their own thread.
+  #   exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(endpoint:)
+  #   tracer_provider = OpenTelemetry::SDK::Trace::TracerProvider.new
+  #   tracer_provider.add_span_processor(
+  #     OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(exporter)
+  #   )
+  #
+  #   llm = LLM.openai(key: ENV["KEY"])
+  #   llm.tracer = LLM::Tracer::Telemetry.new(llm, tracer_provider:)
   class Tracer::Telemetry < Tracer
     ##
     # param [LLM::Provider] provider
     #  An LLM provider
+    # @param [Hash] options
+    # @option options [#export] :exporter
+    #  The span exporter. Ignored when +:tracer_provider+ is given.
+    # @option options [OpenTelemetry::SDK::Trace::TracerProvider] :tracer_provider
+    #  A tracer provider to reuse. The caller owns it, including its span
+    #  processors and their shutdown. When omitted, the tracer builds its own.
     # @return [LLM::Tracer::Telemetry]
     def initialize(provider, options = {})
       super
       @exporter = options.delete(:exporter)
+      @tracer_provider = options.delete(:tracer_provider)
       setup!
     end
 
@@ -255,13 +278,20 @@ module LLM
     # @api private
     def setup!
       require "opentelemetry/sdk" unless defined?(OpenTelemetry)
+      @tracer_provider ||= build_tracer_provider
+      @tracer = @tracer_provider.tracer("llm.rb", LLM::VERSION)
+    end
+
+    ##
+    # @api private
+    def build_tracer_provider
       @exporter ||= OpenTelemetry::SDK::Trace::Export::InMemorySpanExporter.new
       processor = OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(@exporter)
-      @tracer_provider = OpenTelemetry::SDK::Trace::TracerProvider.new(
+      tracer_provider = OpenTelemetry::SDK::Trace::TracerProvider.new(
         sampler: OpenTelemetry::SDK::Trace::Samplers::ALWAYS_ON
       )
-      @tracer_provider.add_span_processor(processor)
-      @tracer = @tracer_provider.tracer("llm.rb", LLM::VERSION)
+      tracer_provider.add_span_processor(processor)
+      tracer_provider
     end
 
     ##
