@@ -39,4 +39,46 @@ RSpec.describe "LLM::Anthropic::ResponseAdapter::Completion" do
       expect(completion.total_tokens).to eq(30)
     end
   end
+
+  describe "#choices" do
+    let(:usage) { nil }
+
+    context "when the response has text blocks around a tool call" do
+      let(:body) do
+        LLM::Object.from(
+          role: "assistant", model: "test-model", usage:,
+          content: [
+            {type: "text", text: "First part. "},
+            {type: "tool_use", id: "toolu_1", name: "search", input: {q: "x"}},
+            {type: "text", text: "Second part."}
+          ]
+        )
+      end
+
+      it "joins all text blocks into one choice" do
+        expect(completion.choices.map(&:content)).to eq(["First part. Second part."])
+      end
+
+      it "attaches the tool calls once" do
+        expect(completion.choices.sole.extra[:tool_calls].map { _1[:id] }).to eq(["toolu_1"])
+      end
+
+      it "returns the same text from content as the last choice" do
+        expect(completion.content).to eq(completion.choices[-1].content)
+      end
+    end
+
+    context "when the response has a tool call and no text" do
+      let(:body) do
+        LLM::Object.from(
+          role: "assistant", model: "test-model", usage:,
+          content: [{type: "tool_use", id: "toolu_1", name: "search", input: {}}]
+        )
+      end
+
+      it "returns one choice with empty text" do
+        expect(completion.choices.map(&:content)).to eq([""])
+      end
+    end
+  end
 end
