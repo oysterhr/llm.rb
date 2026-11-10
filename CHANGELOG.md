@@ -2,6 +2,31 @@
 
 ## Unreleased
 
+## v8.1.3
+
+Changes since `v8.1.2`.
+
+### Change
+
+* **Nest spans under the tool call that started them in LangSmith** <br>
+  `LLM::Tracer::Langsmith` gives each tool span its own LangSmith run
+  id (`langsmith.span.id`) and parents every span started during the
+  tool call on it, across tracer instances and in the fibers and
+  threads the tool starts. The parent goes back to the tracer's
+  `parent_span_id` when the call ends. Tool runs no longer use the run
+  id LangSmith derives from the OTel span id.
+
+* **Label request spans with `LLM::Tracer.with_span_label`** <br>
+  Request spans (chat, retrieval) started inside the block get the
+  label appended to their name, e.g. `retrieval BR`.
+
+* **Share one tracer provider across Telemetry tracers** <br>
+  `LLM::Tracer::Telemetry` accepts a `tracer_provider:` option. A tracer
+  given one reuses it and builds no span processor of its own, so a
+  process can export every tracer's spans through one processor.
+  Passing `exporter:` together with `tracer_provider:` raises an
+  `ArgumentError`.
+
 ## v8.1.2
 
 Changes since `v8.1.1`.
