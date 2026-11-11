@@ -60,7 +60,8 @@ RSpec.describe "LLM::Anthropic::ResponseAdapter::Completion" do
       end
 
       it "attaches the tool calls once" do
-        expect(completion.choices.sole.extra[:tool_calls].map { _1[:id] }).to eq(["toolu_1"])
+        completion.choices => [choice]
+        expect(choice.extra[:tool_calls].map { _1[:id] }).to eq(["toolu_1"])
       end
 
       it "returns the same text from content as the last choice" do
