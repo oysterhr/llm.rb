@@ -141,4 +141,119 @@ RSpec.describe LLM::OpenAI::Responses::StreamParser do
     expect(fn.model).to eq("deepseek-chat")
     expect(error).to eq(id: "call_1", name: "missing", value: {error: true})
   end
+
+  def failed_event(code, message)
+    {"type" => "response.failed", "response" => {"id" => "resp_1", "status" => "failed", "error" => {"code" => code, "message" => message}}}
+  end
+
+  def sse(*events)
+    events.map { "event: #{_1["type"]}\ndata: #{LLM.json.dump(_1)}\n\n" }.join
+  end
+
+  context "when the response fails inside the stream" do
+    {
+      "server_error" => LLM::ServerError,
+      "server_is_overloaded" => LLM::ServerError,
+      "vector_store_timeout" => LLM::ServerError,
+      "rate_limit_exceeded" => LLM::RateLimitError,
+      "slow_down" => LLM::RateLimitError,
+      "invalid_prompt" => LLM::InvalidRequestError,
+      "context_length_exceeded" => LLM::ContextWindowError,
+      "unknown_code" => LLM::Error
+    }.each do |code, error_class|
+      it "raises #{error_class} for #{code}" do
+        expect { parser.parse!(failed_event(code, "Nope")) }
+          .to raise_error(error_class, "#{code}: Nope") { expect(_1.class).to eq(error_class) }
+      end
+    end
+
+    it "raises after the tool call has been sent to the stream" do
+      item = {"id" => "fc_1", "type" => "function_call", "call_id" => "call_1", "name" => "missing", "arguments" => "{}"}
+      parser.parse!("type" => "response.output_item.added", "output_index" => 0, "item" => item.merge("arguments" => ""))
+      parser.parse!("type" => "response.function_call_arguments.done", "output_index" => 0, "item_id" => "fc_1", "arguments" => "{}")
+
+      expect { parser.parse!(failed_event("server_error", "No healthy upstream")) }.to raise_error(LLM::ServerError)
+      expect(stream.calls.map { _1.first.name }).to eq(["missing"])
+    end
+  end
+
+  context "when the stream sends an error event" do
+    it "raises the typed error" do
+      expect { parser.parse!("type" => "error", "code" => "rate_limit_exceeded", "message" => "Slow down") }
+        .to raise_error(LLM::RateLimitError, "rate_limit_exceeded: Slow down")
+    end
+
+    it "reads an error nested under the error key" do
+      expect { parser.parse!("type" => "error", "error" => {"code" => "server_error", "message" => "Oops"}) }
+        .to raise_error(LLM::ServerError, "server_error: Oops")
+    end
+
+    it "uses the error type when the error has no code" do
+      expect { parser.parse!("type" => "error", "error" => {"type" => "server_error", "message" => "Oops"}) }
+        .to raise_error(LLM::ServerError, "server_error: Oops")
+    end
+  end
+
+  context "when the response is incomplete" do
+    it "keeps the response id and status" do
+      parser.parse!("type" => "response.incomplete", "response" => {"id" => "resp_1", "status" => "incomplete", "output" => []})
+
+      expect(parser.body).to include("id" => "resp_1", "status" => "incomplete")
+    end
+  end
+
+  context "when a streamed response is sent over HTTP" do
+    let(:provider) { LLM.openai(key: "TOKEN") }
+    let(:tracer) { LLM::Tracer::Telemetry.new(provider) }
+    let(:span) { tracer.spans.last }
+    let(:created) { {"type" => "response.created", "response" => {"id" => "resp_1", "status" => "in_progress", "output" => []}} }
+
+    before { provider.tracer = tracer }
+
+    def stub_stream(*events)
+      stub_request(:post, "https://api.openai.com/v1/responses")
+        .to_return(status: 200, body: sse(*events), headers: {"Content-Type" => "text/event-stream"})
+    end
+
+    context "when the response fails after HTTP 200" do
+      before { stub_stream(created, failed_event("server_error", "No healthy upstream")) }
+
+      it "raises the typed error from Responses#create" do
+        expect { provider.responses.create("hi", stream: +"") }
+          .to raise_error(LLM::ServerError, "server_error: No healthy upstream")
+      end
+
+      it "finishes the request span with the error" do
+        expect { provider.responses.create("hi", stream: +"") }.to raise_error(LLM::ServerError)
+        expect(span.attributes["error.type"]).to eq("LLM::ServerError")
+        expect(span.status.code).to eq(OpenTelemetry::Trace::Status::ERROR)
+      end
+    end
+
+    context "when the stream ends with no terminal event" do
+      before { stub_stream(created) }
+
+      it "raises a server error and finishes the span with it" do
+        expect { provider.responses.create("hi", stream: +"") }
+          .to raise_error(LLM::ServerError, "stream ended with no terminal event")
+        expect(span.attributes["error.type"]).to eq("LLM::ServerError")
+      end
+    end
+
+    context "when the response is incomplete" do
+      let(:incomplete) do
+        response = {
+          "id" => "resp_1", "status" => "incomplete", "output" => [], "service_tier" => "default",
+          "incomplete_details" => {"reason" => "max_output_tokens"}, "usage" => {"input_tokens" => 5, "output_tokens" => 10}
+        }
+        {"type" => "response.incomplete", "response" => response}
+      end
+
+      before { stub_stream(created, incomplete) }
+
+      it "returns the response" do
+        expect(provider.responses.create("hi", stream: +"").id).to eq("resp_1")
+      end
+    end
+  end
 end

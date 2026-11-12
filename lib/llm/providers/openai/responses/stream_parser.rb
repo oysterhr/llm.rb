@@ -68,9 +68,13 @@ class LLM::OpenAI
         merge_content_part!(output, chunk, part_key: "part")
       else
         case type
+        when "error"
+          raise ErrorHandler.stream_error(chunk["error"] || chunk)
+        when "response.failed"
+          raise ErrorHandler.stream_error(chunk.dig("response", "error") || EMPTY_HASH)
         when "response.created"
           merge_response_created!(chunk)
-        when "response.in_progress", "response.completed"
+        when "response.in_progress", "response.completed", "response.incomplete"
           merge_response_state!(output, chunk)
         when "response.reasoning_summary_text.delta"
           merge_reasoning_summary_text_delta!(output, chunk)

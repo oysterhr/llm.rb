@@ -5,6 +5,30 @@ class LLM::OpenAI
   # @private
   class ErrorHandler
     ##
+    # Maps the error code of an in-stream failure to an error class
+    STREAM_ERRORS = {
+      "server_error" => LLM::ServerError,
+      "server_is_overloaded" => LLM::ServerError,
+      "vector_store_timeout" => LLM::ServerError,
+      "rate_limit_exceeded" => LLM::RateLimitError,
+      "slow_down" => LLM::RateLimitError,
+      "invalid_prompt" => LLM::InvalidRequestError,
+      "context_length_exceeded" => LLM::ContextWindowError
+    }.freeze
+
+    ##
+    # Builds the error for a "response.failed" or "error" stream event, which
+    # can arrive after an HTTP 200 response
+    # @param [Hash] error
+    #  The error object of the event. Its code falls back to its type.
+    # @return [LLM::Error]
+    def self.stream_error(error)
+      code = error["code"] || error["type"]
+      message = [code, error["message"]].compact.join(": ")
+      STREAM_ERRORS.fetch(code, LLM::Error).new(message)
+    end
+
+    ##
     # @return [Net::HTTPResponse]
     #  Non-2XX response from the server
     attr_reader :res
