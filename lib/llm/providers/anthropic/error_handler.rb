@@ -5,6 +5,27 @@ class LLM::Anthropic
   # @private
   class ErrorHandler
     ##
+    # Maps the error type of an in-stream error event to an error class
+    STREAM_ERRORS = {
+      "rate_limit_error" => LLM::RateLimitError,
+      "authentication_error" => LLM::UnauthorizedError,
+      "invalid_request_error" => LLM::InvalidRequestError,
+      "api_error" => LLM::ServerError,
+      "overloaded_error" => LLM::ServerError
+    }.freeze
+
+    ##
+    # Builds the error for an in-stream error event, which can arrive
+    # after an HTTP 200 response
+    # @param [Hash] error
+    #  The "error" object of the event
+    # @return [LLM::Error]
+    def self.stream_error(error)
+      message = [error["type"], error["message"]].compact.join(": ")
+      STREAM_ERRORS.fetch(error["type"], LLM::Error).new(message)
+    end
+
+    ##
     # @return [Net::HTTPResponse]
     #  Non-2XX response from the server
     attr_reader :res
