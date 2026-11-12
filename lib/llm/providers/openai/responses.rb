@@ -17,6 +17,8 @@ class LLM::OpenAI
     require_relative "responses/stream_parser"
     include RequestAdapter
 
+    TERMINAL_STATUSES = %w[completed incomplete].freeze
+
     ##
     # Returns a new Responses object
     # @param provider [LLM::Provider]
@@ -46,6 +48,7 @@ class LLM::OpenAI
       body = LLM.json.dump({input: [adapt(messages, mode: :response)].flatten}.merge!(params))
       set_body_stream(req, StringIO.new(body))
       res, span, tracer = execute(request: req, stream:, stream_parser:, operation: "chat", model: params[:model])
+      check_stream_end!(res, tracer, span) if params[:stream]
       res = ResponseAdapter.adapt(res, type: :responds)
         .extend(Module.new { define_method(:__tools__) { tools } })
       tracer.on_request_finish(operation: "chat", model: params[:model], res:, span:)
@@ -84,6 +87,17 @@ class LLM::OpenAI
     end
 
     private
+
+    ##
+    # A stream can end with no terminal event, for example when the server
+    # closes it early. The body then has no id, so the response is unusable.
+    # @raise [LLM::ServerError]
+    def check_stream_end!(res, tracer, span)
+      return if TERMINAL_STATUSES.include?(res.body["status"])
+      ex = LLM::ServerError.new("stream ended with no terminal event")
+      tracer.on_request_error(ex:, span:)
+      raise ex
+    end
 
     [:path, :headers, :execute, :set_body_stream, :resolve_tools].each do |m|
       define_method(m) { |*args, **kwargs, &b| @provider.send(m, *args, **kwargs, &b) }
