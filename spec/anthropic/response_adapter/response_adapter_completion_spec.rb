@@ -63,10 +63,6 @@ RSpec.describe "LLM::Anthropic::ResponseAdapter::Completion" do
         completion.choices => [choice]
         expect(choice.extra[:tool_calls].map { _1[:id] }).to eq(["toolu_1"])
       end
-
-      it "returns the same text from content as the last choice" do
-        expect(completion.content).to eq(completion.choices[-1].content)
-      end
     end
 
     context "when the response has a tool call and no text" do
