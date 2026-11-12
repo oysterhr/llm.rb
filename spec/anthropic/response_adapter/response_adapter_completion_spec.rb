@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "setup"
+require "llm/providers/anthropic"
 
 RSpec.describe "LLM::Anthropic::ResponseAdapter::Completion" do
   let(:body) { LLM::Object.from(content: [], usage:, model: "test-model") }
