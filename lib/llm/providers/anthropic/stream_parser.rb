@@ -37,7 +37,9 @@ class LLM::Anthropic
     private
 
     def merge!(chunk)
-      if chunk["type"] == "message_start"
+      if chunk["type"] == "error"
+        raise ErrorHandler.stream_error(chunk["error"] || {})
+      elsif chunk["type"] == "message_start"
         merge_message!(chunk["message"])
       elsif chunk["type"] == "content_block_start"
         @body["content"][chunk["index"]] = chunk["content_block"]

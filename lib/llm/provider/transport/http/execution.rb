@@ -34,8 +34,15 @@ module LLM::Provider::Transport
         owner = transport.request_owner
         tracer = self.tracer
         span = tracer.on_request_start(operation:, model:, inputs:)
-        res = transport.request(request, owner:) do |http|
-          perform_request(http, request, stream, stream_parser, &b)
+        res = begin
+          transport.request(request, owner:) do |http|
+            perform_request(http, request, stream, stream_parser, &b)
+          end
+        rescue LLM::Error => ex
+          # A stream parser can raise after an HTTP 200, for example on an
+          # in-stream error event. The error handler never sees that error.
+          tracer.on_request_error(ex:, span:)
+          raise
         end
         [handle_response(res, tracer, span), span, tracer]
       rescue *transport.interrupt_errors
